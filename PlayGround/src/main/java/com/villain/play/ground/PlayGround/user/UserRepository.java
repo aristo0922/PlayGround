@@ -5,10 +5,10 @@ public interface UserRepository {
   void deleteUser(long userId);
   UserDTO findByEmailAndPassword(String id, String password);
 
-  void countPartyById(long userId);
-  void countLeaderById(long userId);
-  void updatePartyCount();
-  void updateLeaderCount();
+  long countPartyById(long userId);
+  long countLeaderById(long userId);
+  void updatePartyCount(UserDTO user);
+  void updateLeaderCount(UserDTO user);
 
-  UserDTO findByUserId(String userId);
+  UserDTO findByUserId(long userId);
 }
