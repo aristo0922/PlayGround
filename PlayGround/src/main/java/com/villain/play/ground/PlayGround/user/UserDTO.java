@@ -1,8 +1,14 @@
 package com.villain.play.ground.PlayGround.user;
 
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
+@Builder
+@AllArgsConstructor
+@RequiredArgsConstructor
 @Data
 public class UserDTO {
 
@@ -26,5 +32,9 @@ public class UserDTO {
 
   public void leaderCountUp(){
     this.leaderCount++;
+  }
+
+  public boolean isActive(){
+    return status == Status.ACTIVE ? true : false;
   }
 }

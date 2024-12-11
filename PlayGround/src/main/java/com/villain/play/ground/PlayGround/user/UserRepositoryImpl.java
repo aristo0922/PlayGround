@@ -4,11 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-@NoArgsConstructor
-@Repository("UserRepository")
+@Repository("userRepository")
 public class UserRepositoryImpl implements UserRepository{
   private static Map<Long, UserDTO> store = new HashMap<>();
 

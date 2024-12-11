@@ -8,10 +8,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
 
-  @Autowired
   private final UserRepository userRepository;
 
   public void register(UserDTO user){
+    userRepository.insertUser(user);
+  }
 
+  public UserDTO login(String email, String password){
+    UserDTO user = userRepository.findByEmailAndPassword(email, password);
+    if(user.isActive()) return user;
+    return null;
   }
 }
