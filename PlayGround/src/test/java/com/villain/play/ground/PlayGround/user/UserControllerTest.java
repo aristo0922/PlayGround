@@ -2,6 +2,7 @@ package com.villain.play.ground.PlayGround.user;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.villain.play.ground.PlayGround.user.request.LoginRequest;
@@ -14,10 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-@ExtendWith(MockitoExtension.class)
+@ExtendWith(SpringExtension.class)
 @WebMvcTest(UserController.class)
 class UserControllerTest {
 
@@ -33,6 +35,14 @@ class UserControllerTest {
   }
 
   @Test
+  public void helloTest() throws Exception{
+    String hello = "hello";
+    mockMvc.perform(MockMvcRequestBuilders.get("/api/members/hello"))
+        .andExpect(status().isOk())
+        .andExpect(content().string(hello));
+  }
+
+  @Test
   void login() throws Exception {
 //    LoginRequest request = LoginRequest.builder().email("villainMusk@Xdinery.world")
 //        .password("villains").build();
@@ -40,10 +50,6 @@ class UserControllerTest {
 //    when(userService.login(request.getEmail(), request.getPassword()))
 //        .thenReturn(new UserDTO(1L, "villainMusk@Xdinery.world", "Villain Musk", "address"));
 //
-//
-//    mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/login")
-//            .accept(MediaType.APPLICATION_JSON))
-//        .andExpect(status().isOk());
     // Mock된 서비스 계층 동작 정의
     LoginRequest request = LoginRequest.builder()
         .email("villainMusk@Xdinery.world")
