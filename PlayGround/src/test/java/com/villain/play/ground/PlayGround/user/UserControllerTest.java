@@ -61,4 +61,19 @@ class UserControllerTest {
 
     verify(userService).login(request.getEmail(), request.getPassword());
   }
+
+  @Test
+  void login_fail() throws Exception{
+    // 요청 본문 정의
+    String requestBody = """
+            {
+                "email": "villainMusk@Xdinery.world",
+            }
+        """;
+
+    mockMvc.perform(MockMvcRequestBuilders.post("/api/members/login")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(requestBody))
+        .andExpect(status().isBadRequest());
+  }
 }
