@@ -7,8 +7,8 @@ public class Party {
   private int id;
   private String platform;
   private String album;
-  private String leaderId;
-  private String recruitId;
+  private String leader;
+  private String recruit;
   private int limit = 6;
   private int now = 6;
   private LocalDateTime start;
@@ -16,5 +16,8 @@ public class Party {
 
   public boolean isFull() {
     return limit <= now ? true : false;
+  }
+  public int getId(){
+    return this.id;
   }
 }

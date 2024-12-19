@@ -9,13 +9,17 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class JoinServiceTest {
+class PartyServiceTest {
   Party party ;
   @InjectMocks
-  JoinService service;
+  PartyService service;
+
+  @Spy
+  PartyRepository partyRepository;
 
   @BeforeEach
   void init(){
@@ -33,5 +37,16 @@ class JoinServiceTest {
 
     Assertions.assertThrows(IllegalStateException.class, () -> {service.join(request);});
   }
+
+  @Test
+  @DisplayName("존재하지 않는 파티 조회 요청")
+  void party_test(){
+    int requestId= 99999;
+
+    when(partyRepository.getPartyById(requestId)).thenReturn(null);
+
+    Assertions.assertThrows(IllegalArgumentException.class, () -> {service.detail(requestId);});
+  }
+
 
 }
