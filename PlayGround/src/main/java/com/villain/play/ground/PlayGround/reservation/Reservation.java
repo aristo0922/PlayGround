@@ -5,7 +5,7 @@ public class Reservation {
   private String member;
   private String user;
   private int party;
-  private boolean isDeposit;
+  private boolean isDeposit; // 객체에서 분리시키는게 좋을 것 같은데
 
   public int getParty() {
     return party;
