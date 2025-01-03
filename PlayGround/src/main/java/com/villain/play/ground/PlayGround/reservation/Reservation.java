@@ -1,16 +1,20 @@
-package com.villain.play.ground.PlayGround.party;
+package com.villain.play.ground.PlayGround.reservation;
 
 public class Reservation {
 
   private String member;
   private String user;
-  private String party;
+  private int party;
   private boolean isDeposit;
+
+  public int getParty() {
+    return party;
+  }
 
   public static class Builder{
     String member;
     String user;
-    String party;
+    int party;
     boolean isDeposit;
 
     public Builder member(String member){
@@ -28,7 +32,7 @@ public class Reservation {
       return this;
     }
 
-    public Builder party(String party){
+    public Builder party(int party){
       this.party = party;
       return this;
     }

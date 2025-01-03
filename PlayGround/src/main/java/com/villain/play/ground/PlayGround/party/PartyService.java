@@ -1,5 +1,6 @@
 package com.villain.play.ground.PlayGround.party;
 
+import com.villain.play.ground.PlayGround.reservation.Reservation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
