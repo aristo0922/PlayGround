@@ -5,11 +5,13 @@ public class Reservation {
   private String member;
   private String user;
   private String party;
+  private boolean isDeposit;
 
   public static class Builder{
     String member;
     String user;
     String party;
+    boolean isDeposit;
 
     public Builder member(String member){
       this.member = member;
@@ -18,6 +20,11 @@ public class Reservation {
 
     public Builder user(String user){
       this.user = user;
+      return this;
+    }
+
+    public Builder isDeposit(boolean isDeposit){
+      this.isDeposit = isDeposit;
       return this;
     }
 
@@ -34,5 +41,6 @@ public class Reservation {
     this.member = builder.member;
     this.user = builder.user;
     this.party = builder.party;
+    this.isDeposit = builder.isDeposit;
   }
 }
