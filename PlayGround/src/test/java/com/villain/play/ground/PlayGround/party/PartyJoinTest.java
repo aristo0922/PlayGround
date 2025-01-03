@@ -38,12 +38,15 @@ class PartyJoinTest {
   }
 
   @Test
-  @DisplayName("이미 선점한 멤버로 파티 가입")
+  @DisplayName("이미 선점한 멤버로 파티 가입 요청 실패")
   void noSeatTest(){
+    int recruitId = 0;
     Party party = new Party(0, "sound cloud", "live and fall", "villain", 0, 6, 6);
     Reservation request = new Reservation.Builder().member("오드").user("아령").party(0).build();
-    when(partyRepository.getPartyById(request.getParty())).thenReturn(party);
-    // 1. party 가져온다.
+    Assertions.assertThrows(IllegalArgumentException.class, () -> {service.join(request);});
+
+//    when(reservationRepository.getListByPartyId(request.getParty())).thenReturn(list);
+    // 1. party 가져온다. (-> reservation service 에 파티 id, 선점 멤버로 조인 가능 여부 확인)
 //    2. 선점 관련 서비스 연결, 파티 아이디, 선점 멤버가 동일한 레코드가 이미 존재하는지 확인
 //      : party 멤버 선점 여부 확인한다
 //    2-1. 자리 잇으면 -> 3. 파티 가입 승인
@@ -54,6 +57,8 @@ class PartyJoinTest {
   @DisplayName("선점 멤버 선택 안하고 파티 가입")
   void failTest(){
     Reservation request = new Reservation.Builder().user("아령").party(0).build();
+    Assertions.assertThrows(IllegalArgumentException.class, () -> {service.join(request);});
+
     // 1. 입력값 검증(Service 책임: 비어있는 입력값이 있는가) -> IllegalArgumentException
     // 2. (빈 입력값 존재) - error response entity 처리? 에러 메시지: 재시도 요청하기?
   }
@@ -62,6 +67,8 @@ class PartyJoinTest {
   @DisplayName("선입금 여부 선택 안하고 파티 가입")
   void failTest2(){
     Reservation request = new Reservation.Builder().member("오드").user("아령").party(0).build();
+    Assertions.assertThrows(IllegalArgumentException.class, () -> {service.join(request);});
+
     // 1. 입력값 검증(Service 책임: 비어있는 입력값이 있는가) -> IllegalArgumentException
     // 2. (빈 입력값 존재) - error response entity 처리? 에러 메시지: 재시도 요청하기?
   }
