@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class PartyRepository {
 
-  public Party getPartyById(int id){
+  public static Party getPartyById(int id){
     return null;
   }
 }
