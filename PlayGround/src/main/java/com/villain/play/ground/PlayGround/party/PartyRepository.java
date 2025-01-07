@@ -7,6 +7,8 @@ import org.springframework.stereotype.Repository;
 public class PartyRepository {
 
   public static Party getPartyById(int id){
-    return null;
+    Party party = new Party(0, "sound cloud", "live and fall", "villain", 0, 6, 6);
+
+    return party;
   }
 }

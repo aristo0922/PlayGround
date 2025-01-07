@@ -1,5 +1,10 @@
 package com.villain.play.ground.PlayGround.reservation;
 
+import lombok.Getter;
+import lombok.ToString;
+
+@ToString
+@Getter
 public class Reservation {
 
   private String member;
@@ -24,7 +29,10 @@ public class Reservation {
     }
   }
 
+  // 선점할 멤버 미선택 시 객체 생성 불가 exception
   private Reservation(Builder builder){
+    if(builder.member == null)
+      throw new IllegalArgumentException();
     this.member = builder.member;
     this.user = builder.user;
   }

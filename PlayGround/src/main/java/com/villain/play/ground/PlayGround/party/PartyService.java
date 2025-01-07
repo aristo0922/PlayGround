@@ -16,11 +16,16 @@ public class PartyService {
 
   public void join(Reservation request, int partyId){
     Party party = PartyRepository.getPartyById(partyId);
-    // 풀파티인가 - 파티
-    // 이미 선점된 멤버인가 - 파티
-    // 선점할 멤버를 선택했는가 - reservation
-    // 선입금 여부 선택 했는가 - reservation
-    // 존재하는 파티인가 -> jpa 가 데이터가 없을 때 반환하는 게 뭔지 봐야할
+
+    if(party.isFull()){
+      throw new IllegalStateException("Cannot Access to this party.");
+    }
+    if(party.isReservedMember(request.getMember())){
+      throw new IllegalArgumentException("Cannot Access to this party.");
+    }
+    party.addReservation(request);
+    // todo 선입금 여부 선택 했는가 - reservation
+    // todo 존재하는 파티인가 -> jpa 가 데이터가 없을 때 반환하는 게 뭔지 봐야할
   }
 
   public Party detail(int id) {

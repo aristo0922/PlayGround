@@ -2,6 +2,7 @@ package com.villain.play.ground.PlayGround.party;
 
 import com.villain.play.ground.PlayGround.reservation.Reservation;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
 
@@ -14,9 +15,8 @@ public class Party {
   private String leader;
   private int recruit;
   private int limit;
-  private int now;
 
-  private List<Reservation> reservationList;
+  private final static List<Reservation> reservationList = new ArrayList<>();
 //  private LocalDateTime start;
 //  private LocalDateTime end;
 
@@ -27,7 +27,7 @@ public class Party {
     this.leader = leader;
     this.recruit = recruit;
     this.limit = limit;
-    this.now = now;
+    // todo: 파라미터 now 삭제, 및 초기화 방법 수정
   }
 
   public void addReservation(Reservation reservation){
@@ -35,7 +35,16 @@ public class Party {
   }
 
   public boolean isFull() {
-    return limit <= now ? true : false;
+    return limit <= reservationList.size() ? true : false;
+  }
+
+  public boolean isReservedMember(String member){ // todo 나중에 객체화 고려
+    System.out.println("[isReservedMember] member = " + member);
+    for (Reservation reservation: reservationList){
+      System.out.println("[isReservedMember] reservation = " + reservation);
+      if(reservation.getMember().equals(member)) return true;
+    }
+    return false;
   }
   public int getId(){
     return this.id;
