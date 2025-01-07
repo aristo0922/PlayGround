@@ -33,7 +33,7 @@ class PartyJoinTest {
   @Test
   @DisplayName("풀파티 참가 요청 실패")
   void fullPartyTest() {
-    Reservation request = new Reservation.Builder().member("오드").user("아령").party(0).build();
+    Reservation request = new Reservation.Builder().member("오드").user("아령").build();
     Assertions.assertThrows(IllegalStateException.class, () -> {service.join(request);});
   }
 
@@ -42,7 +42,7 @@ class PartyJoinTest {
   void noSeatTest(){
     int recruitId = 0;
     Party party = new Party(0, "sound cloud", "live and fall", "villain", 0, 6, 6);
-    Reservation request = new Reservation.Builder().member("오드").user("아령").party(0).build();
+    Reservation request = new Reservation.Builder().member("오드").user("아령").build();
     Assertions.assertThrows(IllegalArgumentException.class, () -> {service.join(request);});
 
 //    when(reservationRepository.getListByPartyId(request.getParty())).thenReturn(list);
@@ -56,7 +56,7 @@ class PartyJoinTest {
   @Test
   @DisplayName("선점 멤버 선택 안하고 파티 가입")
   void failTest(){
-    Reservation request = new Reservation.Builder().user("아령").party(0).build();
+    Reservation request = new Reservation.Builder().user("아령").build();
     Assertions.assertThrows(IllegalArgumentException.class, () -> {service.join(request);});
 
     // 1. 입력값 검증(Service 책임: 비어있는 입력값이 있는가) -> IllegalArgumentException
@@ -66,7 +66,7 @@ class PartyJoinTest {
   @Test
   @DisplayName("선입금 여부 선택 안하고 파티 가입")
   void failTest2(){
-    Reservation request = new Reservation.Builder().member("오드").user("아령").party(0).build();
+    Reservation request = new Reservation.Builder().member("오드").user("아령").build();
     Assertions.assertThrows(IllegalArgumentException.class, () -> {service.join(request);});
 
     // 1. 입력값 검증(Service 책임: 비어있는 입력값이 있는가) -> IllegalArgumentException
