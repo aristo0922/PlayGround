@@ -16,7 +16,7 @@ public class Party {
   private int recruit;
   private int limit;
 
-  private final static List<Reservation> reservationList = new ArrayList<>();
+  private static List<Reservation> reservationList = new ArrayList<>();
 //  private LocalDateTime start;
 //  private LocalDateTime end;
 
@@ -29,7 +29,6 @@ public class Party {
     this.limit = limit;
     // todo: 파라미터 now 삭제, 및 초기화 방법 수정
   }
-
   public void addReservation(Reservation reservation){
     reservationList.add(reservation);
   }
@@ -38,17 +37,18 @@ public class Party {
     return limit <= reservationList.size() ? true : false;
   }
 
-  public boolean isReservedMember(String member){ // todo 나중에 객체화 고려
-    System.out.println("[isReservedMember] member = " + member);
+  public boolean isReservedMember(String member){ // todo 나중에 파라미터 객체화 고려
     for (Reservation reservation: reservationList){
-      System.out.println("[isReservedMember] reservation = " + reservation);
       if(reservation.getMember().equals(member)) return true;
     }
     return false;
   }
+
   public int getId(){
     return this.id;
   }
 
-
+  public void deleteAllReservations(){
+    reservationList = new ArrayList<>();
+  }
 }

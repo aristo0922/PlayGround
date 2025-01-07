@@ -9,11 +9,6 @@ import org.springframework.stereotype.Service;
 public class PartyService {
 
   private final PartyRepository partyRepository;
-  public void join(Reservation request){
-    if(true)
-      throw new IllegalStateException();
-  }
-
   public void join(Reservation request, int partyId){
     Party party = PartyRepository.getPartyById(partyId);
 
@@ -33,5 +28,10 @@ public class PartyService {
     if (party == null)
       throw new IllegalArgumentException();
     return party;
+  }
+
+  public void deleteAllReservations(int id){
+    Party party = partyRepository.getPartyById(id);
+    party.deleteAllReservations();
   }
 }

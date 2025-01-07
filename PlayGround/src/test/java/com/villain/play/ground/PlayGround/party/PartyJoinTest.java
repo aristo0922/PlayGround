@@ -1,58 +1,55 @@
 package com.villain.play.ground.PlayGround.party;
 
-import static org.mockito.Mockito.when;
 
 import com.villain.play.ground.PlayGround.reservation.Reservation;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 class PartyJoinTest {
 
+  private static int TEST_PARTY_ID = 0;
   @InjectMocks
   PartyService service;
 
-  @Mock
-  PartyRepository partyRepository;
-
-  private Party fullParty;
-  private Party joinableParty;
+  List<Reservation> fullReservation = new ArrayList<>();
 
   @BeforeEach
   void init() {
-    this.fullParty = new Party(0, "sound cloud", "live and fall", "villain", 0, 6, 6);
-    this.joinableParty = new Party(1, "sound cloud", "live and fall", "villain musk", 1, 6, 1);
+    String[] members = {"건일", "정수", "가온", "오드", "준한", "주연"};
+    for(String member : members){
+      fullReservation.add(new Reservation.Builder().member(member).user("아령").build());
+    }
   }
 
   @Test
   @DisplayName("풀파티 참가 요청 실패")
   void fullPartyTest() {
+    service.deleteAllReservations(TEST_PARTY_ID);
+    for(Reservation reservation: fullReservation){
+      service.join(reservation, 0);
+    }
     Reservation request = new Reservation.Builder().member("오드").user("아령").build();
-    Assertions.assertThrows(IllegalStateException.class, () -> {service.join(request);});
+    Assertions.assertThrows(IllegalStateException.class, () -> {service.join(request, 0);});
   }
 
   @Test
   @DisplayName("이미 선점한 멤버로 파티 가입 요청 실패")
   void noSeatTest(){
+    service.deleteAllReservations(TEST_PARTY_ID);
     int recruitId = 0;
     Party party = new Party(0, "sound cloud", "live and fall", "villain", 0, 6, 6);
     Reservation request1 = new Reservation.Builder().member("오드").user("아령").build();
     Reservation request2 = new Reservation.Builder().member("오드").user("아령").build();
     service.join(request1, 0);
     Assertions.assertThrows(IllegalArgumentException.class, () -> {service.join(request2, 0);});
-
-//    when(reservationRepository.getListByPartyId(request.getParty())).thenReturn(list);
-    // 1. party 가져온다. (-> reservation service 에 파티 id, 선점 멤버로 조인 가능 여부 확인)
-//    2. 선점 관련 서비스 연결, 파티 아이디, 선점 멤버가 동일한 레코드가 이미 존재하는지 확인
-//      : party 멤버 선점 여부 확인한다
-//    2-1. 자리 잇으면 -> 3. 파티 가입 승인
-//    2-2. 자리 없으면 -> IllegalStateException -> 3. 파티 가입 거절
   }
 
 //  @Test
