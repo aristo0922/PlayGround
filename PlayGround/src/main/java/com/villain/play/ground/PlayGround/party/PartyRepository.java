@@ -10,10 +10,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PartyRepository extends JpaRepository<Party, Long> {
 
+  Party save(Party party);
+
   @Query("SELECT p FROM Party p WHERE p.id = :id")
   Party findPartyById(@Param("id") Long id);
-
-  Party save(Party party);
 
   void deleteAll();
 //  public static Party getPartyById(int id){

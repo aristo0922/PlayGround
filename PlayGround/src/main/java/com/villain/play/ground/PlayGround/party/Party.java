@@ -11,12 +11,16 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
+@ToString
 @Getter @Setter
 @Entity
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "party")
@@ -41,8 +45,7 @@ public class Party {
 //  private LocalDateTime end;
 
   @Builder
-  public Party(long id, String platform, String album, Long leader, Long recruit, int maximum, int now){
-    this.id = id;
+  public Party(String platform, String album, Long leader, Long recruit, int maximum, int now){
     this.platform=platform;
     this.album = album;
     this.leader = leader;
