@@ -1,15 +1,29 @@
 package com.villain.play.ground.PlayGround.party;
 
 import com.villain.play.ground.PlayGround.reservation.Reservation;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter @Setter
+@Entity
+@NoArgsConstructor
 @AllArgsConstructor
 public class Party {
 
-  private int id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
   private String platform;
   private String album;
   private String leader;
@@ -20,7 +34,8 @@ public class Party {
 //  private LocalDateTime start;
 //  private LocalDateTime end;
 
-  public Party(int id, String platform, String album, String leader, int recruit, int limit, int now){
+  @Builder
+  public Party(long id, String platform, String album, String leader, int recruit, int limit, int now){
     this.id = id;
     this.platform=platform;
     this.album = album;
@@ -42,10 +57,6 @@ public class Party {
       if(reservation.getMember().equals(member)) return true;
     }
     return false;
-  }
-
-  public int getId(){
-    return this.id;
   }
 
   public void deleteAllReservations(){
