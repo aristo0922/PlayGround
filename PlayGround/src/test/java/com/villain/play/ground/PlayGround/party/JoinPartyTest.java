@@ -13,9 +13,9 @@ import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class PartyJoinTest {
+class JoinPartyTest {
 
-  private static int TEST_PARTY_ID = 0;
+  private static Long TEST_PARTY_ID = 0l;
   @InjectMocks
   PartyService service;
 
@@ -34,10 +34,10 @@ class PartyJoinTest {
   void fullPartyTest() {
     service.deleteAllReservations(TEST_PARTY_ID);
     for(Reservation reservation: fullReservation){
-      service.join(reservation, 0);
+      service.join(reservation, 0l);
     }
     Reservation request = new Reservation.Builder().member("오드").user("아령").build();
-    Assertions.assertThrows(IllegalStateException.class, () -> {service.join(request, 0);});
+    Assertions.assertThrows(IllegalStateException.class, () -> {service.join(request, 0l);});
   }
 
   @Test
@@ -48,8 +48,8 @@ class PartyJoinTest {
     Party party = new Party(0, "sound cloud", "live and fall", "villain", 0, 6, 6);
     Reservation request1 = new Reservation.Builder().member("오드").user("아령").build();
     Reservation request2 = new Reservation.Builder().member("오드").user("아령").build();
-    service.join(request1, 0);
-    Assertions.assertThrows(IllegalArgumentException.class, () -> {service.join(request2, 0);});
+    service.join(request1, 0l);
+    Assertions.assertThrows(IllegalArgumentException.class, () -> {service.join(request2, 0l);});
   }
 
 //  @Test
