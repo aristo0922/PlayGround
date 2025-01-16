@@ -45,7 +45,7 @@ class JoinPartyTest {
   void noSeatTest(){
     service.deleteAllReservations(TEST_PARTY_ID);
     int recruitId = 0;
-    Party party = new Party(0, "sound cloud", "live and fall", "villain", 0, 6, 6);
+    Party party = new Party(0, "sound cloud", "live and fall", 0L, 0L, 6, 6);
     Reservation request1 = new Reservation.Builder().member("오드").user("아령").build();
     Reservation request2 = new Reservation.Builder().member("오드").user("아령").build();
     service.join(request1, 0l);
