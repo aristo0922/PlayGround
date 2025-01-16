@@ -20,9 +20,10 @@ public class PartyController {
 //    partyService.join(reservation, partyId);
     try{
       Reservation reservation = builder.build();
+      return reservation.toString() + " -> reservation";
     }catch (IllegalArgumentException e){
       System.out.println("[IllegalArgumentException] member or user is null");
     }
-    return builder.toString();
+    return builder.toString() + " -> builder";
   }
 }

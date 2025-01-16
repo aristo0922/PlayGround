@@ -2,6 +2,7 @@ package com.villain.play.ground.PlayGround.reservation;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 @ToString
@@ -11,8 +12,8 @@ public class Reservation {
   private String member;
   private String user;
 
-  @NoArgsConstructor
   @ToString
+  @Setter
   public static class Builder{
     String member;
     String user;
