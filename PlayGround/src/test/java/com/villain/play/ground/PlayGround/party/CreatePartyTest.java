@@ -3,11 +3,7 @@ package com.villain.play.ground.PlayGround.party;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -46,28 +42,4 @@ public class CreatePartyTest {
     listToCreate.add(party5);
     listToCreate.add(party6);
   }
-
-//  todo test 시나리오 보강
-//  @DisplayName("파티_저장하기")
-//  @Test
-//  void save() {
-//    long i = 0L;
-//    for (Party party : listToCreate) {
-//      given(partyRepository.save(party)).willReturn(party);
-//      partyService.save(party);
-//      Party inserted = partyService.getParty(i++);
-//      Assertions.assertEquals(party.getPlatform(), inserted.getPlatform());
-//    }
-//  }
-
-//  todo test 시나리오 보강
-//  @Test
-//  void test(){
-//    Long fakePartyId = 1L;
-//    ReflectionTestUtils.setField(party1, "id", fakePartyId);
-//
-//    given(partyRepository.save(any())).willReturn(party1);
-//    given(partyRepository.findPartyById(fakePartyId)).willReturn(Optional.ofNullable(party1));
-//
-//  }
 }
