@@ -39,9 +39,8 @@ class PartyRepositoryTest {
     Assertions.assertEquals(savedParty.getPlatform(), party.getPlatform());
 
 
-
-//    Party foundParty = partyRepository.findPartyById(savedParty.getId());
-//    Assertions.assertNotNull(foundParty);
-//    Assertions.assertEquals(party.getPlatform(), foundParty.getPlatform());
+    Party foundParty = partyRepository.findPartyById(savedParty.getId());
+    Assertions.assertNotNull(foundParty);
+    Assertions.assertEquals(party.getPlatform(), foundParty.getPlatform());
   }
 }
