@@ -1,14 +1,18 @@
 package com.villain.play.ground.PlayGround.party;
 
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class PartyRepository {
+public interface PartyRepository extends JpaRepository<Party, Long> {
 
-  public static Party getPartyById(int id){
-    Party party = new Party(0, "sound cloud", "live and fall", "villain", 0, 6, 6);
+  Party save(Party party);
 
-    return party;
-  }
+  @Query("SELECT p FROM Party p WHERE p.id = :id")
+  Party findPartyById(@Param("id") Long id);
+
+  void deleteAll();
 }

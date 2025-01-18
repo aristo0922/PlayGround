@@ -1,32 +1,56 @@
 package com.villain.play.ground.PlayGround.party;
 
 import com.villain.play.ground.PlayGround.reservation.Reservation;
-import java.time.LocalDateTime;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
+@ToString
+@Getter @Setter
+@Entity
+@Data
+@NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "party")
 public class Party {
 
-  private int id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+  @Column
   private String platform;
+  @Column
   private String album;
-  private String leader;
-  private int recruit;
-  private int limit;
+  @Column
+  private Long leader;
+  @Column
+  private Long recruit;
+  @Column
+  private int maximum;
 
   private static List<Reservation> reservationList = new ArrayList<>();
 //  private LocalDateTime start;
 //  private LocalDateTime end;
 
-  public Party(int id, String platform, String album, String leader, int recruit, int limit, int now){
-    this.id = id;
+  @Builder
+  public Party(String platform, String album, Long leader, Long recruit, int maximum, int now){
     this.platform=platform;
     this.album = album;
     this.leader = leader;
     this.recruit = recruit;
-    this.limit = limit;
+    this.maximum = maximum;
     // todo: 파라미터 now 삭제, 및 초기화 방법 수정
   }
   public void addReservation(Reservation reservation){
@@ -34,7 +58,7 @@ public class Party {
   }
 
   public boolean isFull() {
-    return limit <= reservationList.size() ? true : false;
+    return maximum <= reservationList.size() ? true : false;
   }
 
   public boolean isReservedMember(String member){ // todo 나중에 파라미터 객체화 고려
@@ -42,10 +66,6 @@ public class Party {
       if(reservation.getMember().equals(member)) return true;
     }
     return false;
-  }
-
-  public int getId(){
-    return this.id;
   }
 
   public void deleteAllReservations(){
