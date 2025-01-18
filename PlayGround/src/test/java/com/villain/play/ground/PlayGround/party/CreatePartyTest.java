@@ -1,7 +1,5 @@
 package com.villain.play.ground.PlayGround.party;
 
-import static org.awaitility.Awaitility.given;
-import static org.mockito.ArgumentMatchers.any;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,13 +9,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.api.extension.Extension;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.util.ReflectionTestUtils;
 
 @ExtendWith(MockitoExtension.class)
 public class CreatePartyTest {
@@ -52,7 +46,8 @@ public class CreatePartyTest {
     listToCreate.add(party5);
     listToCreate.add(party6);
   }
-//
+
+//  todo test 시나리오 보강
 //  @DisplayName("파티_저장하기")
 //  @Test
 //  void save() {
@@ -64,7 +59,8 @@ public class CreatePartyTest {
 //      Assertions.assertEquals(party.getPlatform(), inserted.getPlatform());
 //    }
 //  }
-//
+
+//  todo test 시나리오 보강
 //  @Test
 //  void test(){
 //    Long fakePartyId = 1L;
