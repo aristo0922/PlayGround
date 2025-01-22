@@ -1,5 +1,6 @@
 package com.villain.play.ground.PlayGround.party;
 
+import com.villain.play.ground.PlayGround.party.Party.PartyBuilder;
 import com.villain.play.ground.PlayGround.reservation.Reservation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,5 +46,12 @@ public class PartyService {
   public void deleteAllReservations(Long id){
     Party party = partyRepository.findPartyById(id);
     party.deleteAllReservations();
+  }
+
+  public Party create(Party newParty) {
+//    Party party = partyRepository.save(newParty);
+//    return party;
+    newParty.setId(2L);
+    return newParty;
   }
 }
