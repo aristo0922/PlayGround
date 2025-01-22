@@ -16,14 +16,14 @@ public class PartyController {
   private final PartyService partyService;
 
   @PostMapping("{partyId}/join")
-  public String join(@PathVariable("partyId") int partyId, @RequestBody Reservation.Builder builder){
+  public String join(@PathVariable("partyId") int partyId, @RequestBody Reservation reservation){
 //    partyService.join(reservation, partyId);
     try{
-      Reservation reservation = builder.build();
+      reservation.setPartyId(partyId);
       return reservation.toString() + " -> reservation";
     }catch (IllegalArgumentException e){
       System.out.println("[IllegalArgumentException] member or user is null");
     }
-    return builder.toString() + " -> builder";
+    return reservation.toString() + " -> builder";
   }
 }
