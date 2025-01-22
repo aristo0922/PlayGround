@@ -13,10 +13,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 @ExtendWith(MockitoExtension.class)
 public class ManagePartyTest {
 
+  static long PARTY_ID=1L;
   static String PLATFORM = "sound wave";
   static String ALBUM = "Live and Fall";
   static long LEADER_ID = 1L;
@@ -37,28 +40,17 @@ public class ManagePartyTest {
     party = new NewParty(ALBUM, PLATFORM, LEADER_ID, RECRUIT_ID, MAXIMUM);
     nonRecruit = new NewParty(ALBUM, PLATFORM, LEADER_ID, RECRUIT_ID, MAXIMUM);
     nonRecruit.setRecruit(null);
-
-    Party party1 = new Party.PartyBuilder().platform("JYP shop").album("HELLO WORLD").recruit(0L)
-        .maximum(6).build();
-    Party party2 = new Party.PartyBuilder().platform("SoundWave").album("HELLO WORLD")
-        .recruit(0L).maximum(6).build();
-    Party party3 = new Party.PartyBuilder().platform("MyMusic").album("HELLO WORLD").recruit(0L)
-        .maximum(6).build();
-    Party party4 = new Party.PartyBuilder().platform("Hanter").album("HELLO WORLD").recruit(0L)
-        .maximum(6).build();
-    Party party5 = new Party.PartyBuilder().platform("Spotify").album("HELLO WORLD").recruit(0L)
-        .maximum(6).build();
-    Party party6 = new Party.PartyBuilder().platform("Melon").album("HELLO WORLD").recruit(0L)
-        .maximum(6).build();
+    nomal = new Party.PartyBuilder().platform(PLATFORM).leader(LEADER_ID).recruit(RECRUIT_ID).maximum(
+        MAXIMUM).album(ALBUM).build();
+    nomal.setId(PARTY_ID);
   }
 
 
   @DisplayName("파티를 생성할 수 있다.")
   @Test
   void create(){
-    nomal = new Party.PartyBuilder().platform(PLATFORM).leader(LEADER_ID).recruit(RECRUIT_ID).maximum(
-        MAXIMUM).album(ALBUM).build();
     when(partyRepository.save(any())).thenReturn(nomal);
+
     Party result = service.save(party);
 
     Assertions.assertEquals(PLATFORM, result.getPlatform());
@@ -73,5 +65,14 @@ public class ManagePartyTest {
   void cannot_create(){
     Assertions.assertThrows(IllegalArgumentException.class, () -> service.save(nonRecruit));
   }
+
+  @DisplayName("생성한 파티를 조회할 수 있다.")
+  @Test
+  void read_party(){
+    when(partyRepository.findPartyById(PARTY_ID)).thenReturn(nomal);
+    Party result = service.getParty(PARTY_ID);
+    Assertions.assertEquals(nomal, result);
+  }
+
 
 }
