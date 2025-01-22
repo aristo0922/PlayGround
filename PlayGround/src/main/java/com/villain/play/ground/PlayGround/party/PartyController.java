@@ -10,12 +10,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v1/party/")
+@RequestMapping("/api/v1/party")
 public class PartyController {
 
   private final PartyService partyService;
 
-  @PostMapping("{partyId}/join")
+  @PostMapping
+  public void create(@RequestBody Party party){
+    partyService.save(party);
+  }
+
+  @PostMapping("/{partyId}/join")
   public String join(@PathVariable("partyId") int partyId, @RequestBody Reservation reservation){
 //    partyService.join(reservation, partyId);
     try{
