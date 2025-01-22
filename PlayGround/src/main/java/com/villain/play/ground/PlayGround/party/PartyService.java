@@ -29,9 +29,6 @@ public class PartyService {
     // todo 존재하는 파티인가 -> jpa 가 데이터가 없을 때 반환하는 게 뭔지 봐야할
   }
 
-  public Party save(Party party){
-    return partyRepository.save(party);
-  }
   public Party save(NewParty newParty){
     if (newParty.hasNullField()) throw new IllegalArgumentException("[ ERROR ] There are any initialized fields.");
     Party party = new Party.PartyBuilder().platform(newParty.getPlatform()).leader(newParty.getLeader()).recruit(newParty.getRecruit()).maximum(

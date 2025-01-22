@@ -1,5 +1,6 @@
 package com.villain.play.ground.PlayGround.party;
 
+import com.villain.play.ground.PlayGround.request.NewParty;
 import com.villain.play.ground.PlayGround.reservation.Reservation;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -45,7 +46,7 @@ public class Party {
 //  private LocalDateTime end;
 
   @Builder
-  public Party(String platform, String album, Long leader, Long recruit, int maximum, int now){
+  public Party(String platform, String album, Long leader, Long recruit, int maximum){
     this.platform=platform;
     this.album = album;
     this.leader = leader;

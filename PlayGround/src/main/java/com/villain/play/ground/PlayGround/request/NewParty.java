@@ -1,7 +1,12 @@
 package com.villain.play.ground.PlayGround.request;
 
-import lombok.Getter;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@AllArgsConstructor
 @Getter
 public class NewParty {
 
