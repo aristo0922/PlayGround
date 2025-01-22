@@ -30,9 +30,6 @@ public class PartyService {
       throw new IllegalArgumentException("[ ERROR ] 존재하지 않는 파티 정보 입니다.");
     return party;
   }
-  public Party detail(Long id) {
-    return partyRepository.findPartyById(id);
-  }
 
   public void deleteAllReservations(Long id){
     Party party = partyRepository.findPartyById(id);

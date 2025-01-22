@@ -19,7 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 @ExtendWith(MockitoExtension.class)
 public class ManagePartyTest {
 
-  static long PARTY_ID=1L;
+  static long PARTY_ID = 1L;
+  static long INVALID_PARTY_ID = 0L;
   static String PLATFORM = "sound wave";
   static String ALBUM = "Live and Fall";
   static long LEADER_ID = 1L;
@@ -36,19 +37,20 @@ public class ManagePartyTest {
   static Party nomal;
 
   @BeforeEach
-  void set_up(){
+  void set_up() {
     party = new NewParty(ALBUM, PLATFORM, LEADER_ID, RECRUIT_ID, MAXIMUM);
     nonRecruit = new NewParty(ALBUM, PLATFORM, LEADER_ID, RECRUIT_ID, MAXIMUM);
     nonRecruit.setRecruit(null);
-    nomal = new Party.PartyBuilder().platform(PLATFORM).leader(LEADER_ID).recruit(RECRUIT_ID).maximum(
-        MAXIMUM).album(ALBUM).build();
+    nomal = new Party.PartyBuilder().platform(PLATFORM).leader(LEADER_ID).recruit(RECRUIT_ID)
+        .maximum(
+            MAXIMUM).album(ALBUM).build();
     nomal.setId(PARTY_ID);
   }
 
 
   @DisplayName("파티를 생성할 수 있다.")
   @Test
-  void create(){
+  void create() {
     when(partyRepository.save(any())).thenReturn(nomal);
 
     Party result = service.save(party);
@@ -62,17 +64,24 @@ public class ManagePartyTest {
 
   @DisplayName("빈 필드 존재 시 파티를 생성할 수 없다.")
   @Test
-  void cannot_create(){
+  void cannot_create() {
     Assertions.assertThrows(IllegalArgumentException.class, () -> service.save(nonRecruit));
   }
 
   @DisplayName("생성한 파티를 조회할 수 있다.")
   @Test
-  void read_party(){
+  void read_party() {
     when(partyRepository.findPartyById(PARTY_ID)).thenReturn(nomal);
     Party result = service.getParty(PARTY_ID);
     Assertions.assertEquals(nomal, result);
   }
 
 
+  @DisplayName("존재하지 않는 파티는 조회할 수 없다..")
+  @Test
+  void cannot_read() {
+    when(partyRepository.findPartyById(INVALID_PARTY_ID)).thenReturn(null);
+    Assertions.assertThrows(IllegalArgumentException.class,
+        () -> service.getParty(INVALID_PARTY_ID));
+  }
 }
