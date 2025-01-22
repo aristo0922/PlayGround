@@ -3,6 +3,7 @@ package com.villain.play.ground.PlayGround.party;
 import com.villain.play.ground.PlayGround.request.NewParty;
 import com.villain.play.ground.PlayGround.reservation.Reservation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +20,11 @@ public class PartyController {
   @PostMapping
   public void create(@RequestBody NewParty party){
     partyService.save(party);
+  }
+
+  @GetMapping("/{partyId}")
+  public Party read(@PathVariable("partyId") long partyId){
+    return partyService.getParty(partyId);
   }
 
   @PostMapping("/{partyId}/join")
