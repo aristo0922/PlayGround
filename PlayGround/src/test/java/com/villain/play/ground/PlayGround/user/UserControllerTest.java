@@ -46,14 +46,13 @@ class UserControllerTest {
         .password("villains")
         .build();
 
-    // 요청 본문 정의
     String requestBody = """
             {
                 "email": "villainMusk@Xdinery.world",
                 "password": "villains"
             }
         """;
-    // 테스트 실행
+
     mockMvc.perform(MockMvcRequestBuilders.post("/api/members/login")
             .contentType(MediaType.APPLICATION_JSON)
             .content(requestBody))
@@ -64,7 +63,6 @@ class UserControllerTest {
 
   @Test
   void login_fail() throws Exception{
-    // 요청 본문 정의
     String requestBody = """
             {
                 "email": "villainMusk@Xdinery.world",

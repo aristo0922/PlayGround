@@ -37,6 +37,19 @@ public class ManagePartyTest {
     party = new NewParty(ALBUM, PLATFORM, LEADER_ID, RECRUIT_ID, MAXIMUM);
     nonRecruit = new NewParty(ALBUM, PLATFORM, LEADER_ID, RECRUIT_ID, MAXIMUM);
     nonRecruit.setRecruit(null);
+
+    Party party1 = new Party.PartyBuilder().platform("JYP shop").album("HELLO WORLD").recruit(0L)
+        .maximum(6).build();
+    Party party2 = new Party.PartyBuilder().platform("SoundWave").album("HELLO WORLD")
+        .recruit(0L).maximum(6).build();
+    Party party3 = new Party.PartyBuilder().platform("MyMusic").album("HELLO WORLD").recruit(0L)
+        .maximum(6).build();
+    Party party4 = new Party.PartyBuilder().platform("Hanter").album("HELLO WORLD").recruit(0L)
+        .maximum(6).build();
+    Party party5 = new Party.PartyBuilder().platform("Spotify").album("HELLO WORLD").recruit(0L)
+        .maximum(6).build();
+    Party party6 = new Party.PartyBuilder().platform("Melon").album("HELLO WORLD").recruit(0L)
+        .maximum(6).build();
   }
 
 

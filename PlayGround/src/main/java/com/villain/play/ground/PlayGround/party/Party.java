@@ -1,6 +1,5 @@
 package com.villain.play.ground.PlayGround.party;
 
-import com.villain.play.ground.PlayGround.request.NewParty;
 import com.villain.play.ground.PlayGround.reservation.Reservation;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -42,8 +41,6 @@ public class Party {
   private int maximum;
 
   private static List<Reservation> reservationList = new ArrayList<>();
-//  private LocalDateTime start;
-//  private LocalDateTime end;
 
   @Builder
   public Party(String platform, String album, Long leader, Long recruit, int maximum){
@@ -52,7 +49,6 @@ public class Party {
     this.leader = leader;
     this.recruit = recruit;
     this.maximum = maximum;
-    // todo: 파라미터 now 삭제, 및 초기화 방법 수정
   }
   public void addReservation(Reservation reservation){
     reservationList.add(reservation);
@@ -62,7 +58,7 @@ public class Party {
     return maximum <= reservationList.size() ? true : false;
   }
 
-  public boolean isReservedMember(String member){ // todo 나중에 파라미터 객체화 고려
+  public boolean isReservedMember(String member){
     for (Reservation reservation: reservationList){
       if(reservation.getMember().equals(member)) return true;
     }
