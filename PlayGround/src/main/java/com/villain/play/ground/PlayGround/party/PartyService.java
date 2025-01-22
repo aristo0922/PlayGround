@@ -1,6 +1,7 @@
 package com.villain.play.ground.PlayGround.party;
 
 import com.villain.play.ground.PlayGround.party.Party.PartyBuilder;
+import com.villain.play.ground.PlayGround.request.NewParty;
 import com.villain.play.ground.PlayGround.reservation.Reservation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,12 @@ public class PartyService {
   }
 
   public Party save(Party party){
+    return partyRepository.save(party);
+  }
+  public Party save(NewParty newParty){
+    if (newParty.hasNullField()) throw new IllegalArgumentException("[ ERROR ] There are any initialized fields.");
+    Party party = new Party.PartyBuilder().platform(newParty.getPlatform()).leader(newParty.getLeader()).recruit(newParty.getRecruit()).maximum(
+        newParty.getMaximum()).build();
     return partyRepository.save(party);
   }
 

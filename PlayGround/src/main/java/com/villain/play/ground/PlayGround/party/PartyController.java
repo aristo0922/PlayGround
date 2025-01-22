@@ -1,5 +1,6 @@
 package com.villain.play.ground.PlayGround.party;
 
+import com.villain.play.ground.PlayGround.request.NewParty;
 import com.villain.play.ground.PlayGround.reservation.Reservation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +17,7 @@ public class PartyController {
   private final PartyService partyService;
 
   @PostMapping
-  public void create(@RequestBody Party party){
+  public void create(@RequestBody NewParty party){
     partyService.save(party);
   }
 

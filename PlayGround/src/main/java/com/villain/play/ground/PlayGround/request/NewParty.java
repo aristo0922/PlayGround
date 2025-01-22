@@ -10,4 +10,9 @@ public class NewParty {
   private Long leader;
   private Long recruit;
   private int maximum;
+
+  public boolean hasNullField(){
+    return album.equals("")|| platform.equals("")||
+        leader==null || recruit == null ;
+  }
 }
