@@ -1,6 +1,9 @@
 package com.villain.play.ground.PlayGround.party;
 
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -24,23 +27,26 @@ public class ManagePartyTest {
 
   @Mock
   private PartyRepository partyRepository;
+  static Party party;
 
-//  @BeforeEach
-//  void set_up(){
-//    partyRepository
-//  }
+  @BeforeEach
+  void set_up(){
+    party = new Party.PartyBuilder().platform(PLATFORM).album(ALBUM).leader(LEADER_ID).recruit(RECRUIT_ID).maximum(MAXIMUM).build();
+    party.setId(2L);
+    when(partyRepository.save(any())).thenReturn(party);
+  }
 
 
   @DisplayName("파티를 생성할 수 있다.")
   @Test
   void create(){
-    Party party = service.create(new Party.PartyBuilder().platform(PLATFORM).album(ALBUM).leader(LEADER_ID).recruit(RECRUIT_ID).maximum(MAXIMUM).build());
-    Assertions.assertEquals(PLATFORM, party.getPlatform());
-    Assertions.assertEquals(ALBUM, party.getAlbum());
-    Assertions.assertEquals(LEADER_ID, party.getLeader());
-    Assertions.assertEquals(RECRUIT_ID, party.getRecruit());
-    Assertions.assertEquals(MAXIMUM, party.getMaximum());
-    Assertions.assertNotNull(party.getId());
+    Party result = service.save(party);
+
+    Assertions.assertEquals(PLATFORM, result.getPlatform());
+    Assertions.assertEquals(ALBUM, result.getAlbum());
+    Assertions.assertEquals(LEADER_ID, result.getLeader());
+    Assertions.assertEquals(RECRUIT_ID, result.getRecruit());
+    Assertions.assertEquals(MAXIMUM, result.getMaximum());
   }
 
 }

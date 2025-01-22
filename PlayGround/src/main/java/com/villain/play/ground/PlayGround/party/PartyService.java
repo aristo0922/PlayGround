@@ -47,11 +47,4 @@ public class PartyService {
     Party party = partyRepository.findPartyById(id);
     party.deleteAllReservations();
   }
-
-  public Party create(Party newParty) {
-//    Party party = partyRepository.save(newParty);
-//    return party;
-    newParty.setId(2L);
-    return newParty;
-  }
 }
