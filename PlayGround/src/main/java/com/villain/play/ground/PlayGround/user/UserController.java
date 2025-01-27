@@ -30,7 +30,6 @@ public class UserController {
           .password(request.getPassword())
           .address(request.getAddress())
           .name(request.getName()).build();
-//      userService.register(user);
     }
   }
 
