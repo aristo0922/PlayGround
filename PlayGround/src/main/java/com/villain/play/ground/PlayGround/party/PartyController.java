@@ -27,7 +27,7 @@ public class PartyController {
     return partyService.getParty(partyId);
   }
 
-  @PostMapping("/{partyId}/join")
+  @PostMapping("/{partyId}/user")
   public String join(@PathVariable("partyId") int partyId, @RequestBody Reservation reservation){
 //    partyService.join(reservation, partyId);
     try{
