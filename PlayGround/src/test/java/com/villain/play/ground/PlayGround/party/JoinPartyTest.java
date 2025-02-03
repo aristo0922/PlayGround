@@ -18,7 +18,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class JoinPartyTest {
 
-  private static Long TEST_PARTY_ID = 0l;
   @InjectMocks
   private PartyService service;
 
@@ -58,5 +57,15 @@ class JoinPartyTest {
 
     Assertions.assertEquals(leaderReservation, reservationList.get(0));
     Assertions.assertEquals(newReservation, reservationList.get(1));
+  }
+
+  @DisplayName("이미 선점된 멤버로 파티 참가 불가")
+  @Test
+  void fail_join(){
+    when(partyRepository.findPartyById(targetId)).thenReturn(party);
+    Reservation newReservation = reservations.get(2);
+
+    service.join(newReservation);
+    Assertions.assertThrows(IllegalAccessError.class, () -> service.join(newReservation));
   }
 }
