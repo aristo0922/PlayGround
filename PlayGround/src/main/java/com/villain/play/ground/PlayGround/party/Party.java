@@ -40,7 +40,7 @@ public class Party {
   @Column
   private int maximum;
 
-  private static List<Reservation> reservationList = new ArrayList<>();
+  private List<Reservation> reservationList;
 
   @Builder
   public Party(String platform, String album, Long leader, Long recruit, int maximum){

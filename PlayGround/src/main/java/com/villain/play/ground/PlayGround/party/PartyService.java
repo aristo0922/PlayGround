@@ -15,6 +15,7 @@ public class PartyService {
   public void join(Reservation request){
     Long partyId = request.getPartyId();
     Party party = partyRepository.findPartyById(partyId);
+    party.addReservation(request);
   }
 
   public Party save(NewParty newParty){
