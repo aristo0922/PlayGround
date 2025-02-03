@@ -68,4 +68,17 @@ class JoinPartyTest {
     service.join(newReservation);
     Assertions.assertThrows(IllegalArgumentException.class, () -> service.join(newReservation));
   }
+
+  // 멤버에 대한 데이터베이스 필요
+  @DisplayName("존재하지 않는 멤버는 선점할 수 없다.")
+  @Test
+  void fail_join2(){
+    when(partyRepository.findPartyById(targetId)).thenReturn(party);
+    Reservation newReservation = reservations.get(2);
+    newReservation.setMember("아령");
+
+    Assertions.assertThrows(IllegalArgumentException.class, () -> service.join(newReservation));
+  }
+
+
 }
