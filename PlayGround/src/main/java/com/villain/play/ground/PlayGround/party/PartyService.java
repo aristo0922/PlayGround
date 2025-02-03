@@ -15,6 +15,10 @@ public class PartyService {
   public void join(Reservation request){
     Long partyId = request.getPartyId();
     Party party = partyRepository.findPartyById(partyId);
+
+    String member = request.getMember();
+    if(party.isReservedMember(member)) throw new IllegalArgumentException("[Error] Already reserved member. Please choose other one.");
+
     party.addReservation(request);
   }
 

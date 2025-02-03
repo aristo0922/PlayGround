@@ -66,6 +66,6 @@ class JoinPartyTest {
     Reservation newReservation = reservations.get(2);
 
     service.join(newReservation);
-    Assertions.assertThrows(IllegalAccessError.class, () -> service.join(newReservation));
+    Assertions.assertThrows(IllegalArgumentException.class, () -> service.join(newReservation));
   }
 }
