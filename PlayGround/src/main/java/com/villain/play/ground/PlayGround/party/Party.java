@@ -1,11 +1,15 @@
 package com.villain.play.ground.PlayGround.party;
 
+import com.villain.play.ground.PlayGround.album.Album;
+import com.villain.play.ground.PlayGround.constant.Artist;
 import com.villain.play.ground.PlayGround.reservation.Reservation;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +35,9 @@ public class Party {
   private Long id;
   @Column
   private String platform;
-  @Column
-  private String album;
+  @ManyToOne
+  @JoinColumn(name = "album_id")
+  private Album album;
   @Column
   private Long leader;
   @Column
@@ -41,14 +46,16 @@ public class Party {
   private int maximum;
 
   private List<Reservation> reservationList;
+  private Artist artist;
 
   @Builder
-  public Party(String platform, String album, Long leader, Long recruit, int maximum){
+  public Party(String platform, Album album, Long leader, Long recruit, int maximum){
     this.platform=platform;
     this.album = album;
     this.leader = leader;
     this.recruit = recruit;
     this.maximum = maximum;
+    this.artist = album.getArtist();
   }
   public void addReservation(Reservation reservation){
     reservationList.add(reservation);

@@ -3,6 +3,8 @@ package com.villain.play.ground.PlayGround.party;
 
 import static org.mockito.Mockito.when;
 
+import com.villain.play.ground.PlayGround.album.Album;
+import com.villain.play.ground.PlayGround.constant.Artist;
 import com.villain.play.ground.PlayGround.reservation.Reservation;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +41,8 @@ class JoinPartyTest {
       reservations.add(new Reservation(partyId, member, user));
     }
 
-    party = new Party(targetId, "Sound Wave", "Live and Fall", 1L, 1L, 6, new ArrayList<>());
+    Album album = new Album("Live and Fall", Artist.XH);
+    party = new Party(targetId, "Sound Wave", album, 1L, 1L, 6, new ArrayList<>(), album.getArtist());
     leaderReservation = new Reservation(targetId, members[0], leader);
     party.addReservation(leaderReservation);
   }

@@ -1,6 +1,8 @@
 package com.villain.play.ground.PlayGround.party;
 
 
+import com.villain.play.ground.PlayGround.album.Album;
+import com.villain.play.ground.PlayGround.constant.Artist;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -23,16 +25,18 @@ class PartyRepositoryTest {
   @Autowired
   private PartyRepository partyRepository;
   private Party party;
+  private Album album;
 
   @BeforeEach
   void setup(){
     partyRepository.deleteAll();
+    album = new Album("Live and Fall", Artist.XH);
   }
 
   @DisplayName("객체 저장 및 조회")
   @Test
   void findPartyById() {
-    party = new Party.PartyBuilder().album("Hello NEW World").leader(0L).maximum(6)
+    party = new Party.PartyBuilder().album(album).leader(0L).maximum(6)
         .recruit(0L).platform("# form").build();
     System.out.println("party = " + party);
     Party savedParty = partyRepository.save(party);

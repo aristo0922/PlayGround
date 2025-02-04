@@ -19,6 +19,7 @@ public class PartyService {
     String member = request.getMember();
     if(party.isReservedMember(member)) throw new IllegalArgumentException("[Error] Already reserved member. Please choose other one.");
 
+
     party.addReservation(request);
   }
 

@@ -4,6 +4,8 @@ package com.villain.play.ground.PlayGround.party;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import com.villain.play.ground.PlayGround.album.Album;
+import com.villain.play.ground.PlayGround.constant.Artist;
 import com.villain.play.ground.PlayGround.request.NewParty;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,10 +24,10 @@ public class ManagePartyTest {
   static long PARTY_ID = 1L;
   static long INVALID_PARTY_ID = 0L;
   static String PLATFORM = "sound wave";
-  static String ALBUM = "Live and Fall";
   static long LEADER_ID = 1L;
   static long RECRUIT_ID = 1L;
   static int MAXIMUM = 6;
+  private Album album;
 
   @InjectMocks
   private PartyService service;
@@ -38,12 +40,13 @@ public class ManagePartyTest {
 
   @BeforeEach
   void set_up() {
-    party = new NewParty(ALBUM, PLATFORM, LEADER_ID, RECRUIT_ID, MAXIMUM);
-    nonRecruit = new NewParty(ALBUM, PLATFORM, LEADER_ID, RECRUIT_ID, MAXIMUM);
+    album = new Album("Live and Fall", Artist.XH);
+    party = new NewParty(album, PLATFORM, LEADER_ID, RECRUIT_ID, MAXIMUM);
+    nonRecruit = new NewParty(album, PLATFORM, LEADER_ID, RECRUIT_ID, MAXIMUM);
     nonRecruit.setRecruit(null);
     nomal = new Party.PartyBuilder().platform(PLATFORM).leader(LEADER_ID).recruit(RECRUIT_ID)
         .maximum(
-            MAXIMUM).album(ALBUM).build();
+            MAXIMUM).album(album).build();
     nomal.setId(PARTY_ID);
   }
 
@@ -56,7 +59,7 @@ public class ManagePartyTest {
     Party result = service.save(party);
 
     Assertions.assertEquals(PLATFORM, result.getPlatform());
-    Assertions.assertEquals(ALBUM, result.getAlbum());
+    Assertions.assertEquals(album, result.getAlbum());
     Assertions.assertEquals(LEADER_ID, result.getLeader());
     Assertions.assertEquals(RECRUIT_ID, result.getRecruit());
     Assertions.assertEquals(MAXIMUM, result.getMaximum());
