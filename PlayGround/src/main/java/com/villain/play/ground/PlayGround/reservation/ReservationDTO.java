@@ -9,7 +9,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @AllArgsConstructor
-public class Reservation {
+public class ReservationDTO {
 
   private long partyId;
   private String member;

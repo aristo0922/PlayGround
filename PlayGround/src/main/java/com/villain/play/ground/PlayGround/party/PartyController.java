@@ -1,7 +1,7 @@
 package com.villain.play.ground.PlayGround.party;
 
 import com.villain.play.ground.PlayGround.request.NewParty;
-import com.villain.play.ground.PlayGround.reservation.Reservation;
+import com.villain.play.ground.PlayGround.reservation.ReservationDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,14 +28,14 @@ public class PartyController {
   }
 
   @PostMapping("/{partyId}/user")
-  public String join(@PathVariable("partyId") int partyId, @RequestBody Reservation reservation){
+  public String join(@PathVariable("partyId") int partyId, @RequestBody ReservationDTO reservationDTO){
 //    partyService.join(reservation, partyId);
     try{
-      reservation.setPartyId(partyId);
-      return reservation.toString() + " -> reservation";
+      reservationDTO.setPartyId(partyId);
+      return reservationDTO.toString() + " -> reservation";
     }catch (IllegalArgumentException e){
       System.out.println("[IllegalArgumentException] member or user is null");
     }
-    return reservation.toString() + " -> builder";
+    return reservationDTO.toString() + " -> builder";
   }
 }

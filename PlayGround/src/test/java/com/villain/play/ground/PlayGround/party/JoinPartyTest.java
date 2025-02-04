@@ -5,7 +5,7 @@ import static org.mockito.Mockito.when;
 
 import com.villain.play.ground.PlayGround.album.Album;
 import com.villain.play.ground.PlayGround.constant.Artist;
-import com.villain.play.ground.PlayGround.reservation.Reservation;
+import com.villain.play.ground.PlayGround.reservation.ReservationDTO;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
@@ -25,11 +25,11 @@ class JoinPartyTest {
 
   @Mock
   private PartyRepository partyRepository;
-  List<Reservation> reservations = new ArrayList<>();
+  List<ReservationDTO> reservationDTOS = new ArrayList<>();
 
   private Party party;
   Long targetId = 2L;
-  Reservation leaderReservation;
+  ReservationDTO leaderReservationDTO;
 
   @BeforeEach
   void init() {
@@ -38,48 +38,48 @@ class JoinPartyTest {
     String user = "musk";
     String leader = "ant";
     for(String member : members){
-      reservations.add(new Reservation(partyId, member, user));
+      reservationDTOS.add(new ReservationDTO(partyId, member, user));
     }
 
     Album album = new Album("Live and Fall", Artist.XH);
     party = new Party(targetId, "Sound Wave", album, 1L, 1L, 6, new ArrayList<>());
-    leaderReservation = new Reservation(targetId, members[0], leader);
-    party.addReservation(leaderReservation);
+    leaderReservationDTO = new ReservationDTO(targetId, members[0], leader);
+    party.addReservation(leaderReservationDTO);
   }
 
   @DisplayName("기존에 존재하는 ant 파티 참가하기")
   @Test
   void join(){
     when(partyRepository.findPartyById(targetId)).thenReturn(party);
-    Reservation newReservation = reservations.get(2);
+    ReservationDTO newReservationDTO = reservationDTOS.get(2);
 
-    service.join(newReservation);
+    service.join(newReservationDTO);
 
     Party result = service.getParty(targetId);
-    List<Reservation> reservationList = result.getReservationList();
+    List<ReservationDTO> reservationDTOList = result.getReservationDTOS();
 
-    Assertions.assertEquals(leaderReservation, reservationList.get(0));
-    Assertions.assertEquals(newReservation, reservationList.get(1));
+    Assertions.assertEquals(leaderReservationDTO, reservationDTOList.get(0));
+    Assertions.assertEquals(newReservationDTO, reservationDTOList.get(1));
   }
 
   @DisplayName("이미 선점된 멤버로 파티 참가 불가")
   @Test
   void fail_join(){
     when(partyRepository.findPartyById(targetId)).thenReturn(party);
-    Reservation newReservation = reservations.get(2);
+    ReservationDTO newReservationDTO = reservationDTOS.get(2);
 
-    service.join(newReservation);
-    Assertions.assertThrows(IllegalArgumentException.class, () -> service.join(newReservation));
+    service.join(newReservationDTO);
+    Assertions.assertThrows(IllegalArgumentException.class, () -> service.join(newReservationDTO));
   }
 
   @DisplayName("존재하지 않는 멤버는 선점할 수 없다.")
   @Test
   void fail_join2(){
     when(partyRepository.findPartyById(targetId)).thenReturn(party);
-    Reservation newReservation = reservations.get(2);
-    newReservation.setMember("아령");
+    ReservationDTO newReservationDTO = reservationDTOS.get(2);
+    newReservationDTO.setMember("아령");
 
-    Assertions.assertThrows(IllegalArgumentException.class, () -> service.join(newReservation));
+    Assertions.assertThrows(IllegalArgumentException.class, () -> service.join(newReservationDTO));
   }
 
 

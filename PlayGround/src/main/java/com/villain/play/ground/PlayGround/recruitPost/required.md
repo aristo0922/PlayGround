@@ -41,7 +41,7 @@
 > 파티 참여 요청 승인제 고민해보기
 > 파티원끼리 단체 체팅
 
-- 선점 reservation
+- 선점 reservationDTO
   - Entity 파티
   - Entity 멤버
   - Entity 사용자

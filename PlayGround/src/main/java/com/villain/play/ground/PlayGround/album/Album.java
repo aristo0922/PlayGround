@@ -9,11 +9,13 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import java.util.List;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Entity
+@Table
 public class Album {
 
   @Id

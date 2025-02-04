@@ -1,7 +1,7 @@
 package com.villain.play.ground.PlayGround.party;
 
 import com.villain.play.ground.PlayGround.album.Album;
-import com.villain.play.ground.PlayGround.reservation.Reservation;
+import com.villain.play.ground.PlayGround.reservation.ReservationDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +45,8 @@ public class Party {
   @Column
   private int maximum;
 
-  private List<Reservation> reservationList;
+  @OneToMany
+  private List<ReservationDTO> reservationDTOS;
 
   @Builder
   public Party(String platform, Album album, Long leader, Long recruit, int maximum){
@@ -54,23 +56,23 @@ public class Party {
     this.recruit = recruit;
     this.maximum = maximum;
   }
-  public void addReservation(Reservation reservation){
-    reservationList.add(reservation);
+  public void addReservation(ReservationDTO reservationDTO){
+    reservationDTOS.add(reservationDTO);
   }
 
   public boolean isFull() {
-    return maximum <= reservationList.size() ? true : false;
+    return maximum <= reservationDTOS.size() ? true : false;
   }
 
   public boolean isReservedMember(String member){
-    for (Reservation reservation: reservationList){
-      if(reservation.getMember().equals(member)) return true;
+    for (ReservationDTO reservationDTO : reservationDTOS){
+      if(reservationDTO.getMember().equals(member)) return true;
     }
     return false;
   }
 
   public void deleteAllReservations(){
-    reservationList = new ArrayList<>();
+    reservationDTOS = new ArrayList<>();
   }
   public boolean isArtist(String name){
     return album.isArtist(name) || name.equals(album.getName());

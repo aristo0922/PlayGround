@@ -1,7 +1,7 @@
 package com.villain.play.ground.PlayGround.party;
 
 import com.villain.play.ground.PlayGround.request.NewParty;
-import com.villain.play.ground.PlayGround.reservation.Reservation;
+import com.villain.play.ground.PlayGround.reservation.ReservationDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class PartyService {
 
   private final PartyRepository partyRepository;
-  public void join(Reservation request){
+  public void join(ReservationDTO request){
     Long partyId = request.getPartyId();
     Party party = partyRepository.findPartyById(partyId);
 
