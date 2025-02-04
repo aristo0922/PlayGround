@@ -42,7 +42,7 @@ class JoinPartyTest {
     }
 
     Album album = new Album("Live and Fall", Artist.XH);
-    party = new Party(targetId, "Sound Wave", album, 1L, 1L, 6, new ArrayList<>(), album.getArtist());
+    party = new Party(targetId, "Sound Wave", album, 1L, 1L, 6, new ArrayList<>());
     leaderReservation = new Reservation(targetId, members[0], leader);
     party.addReservation(leaderReservation);
   }
@@ -72,7 +72,6 @@ class JoinPartyTest {
     Assertions.assertThrows(IllegalArgumentException.class, () -> service.join(newReservation));
   }
 
-  // 멤버에 대한 데이터베이스 필요
   @DisplayName("존재하지 않는 멤버는 선점할 수 없다.")
   @Test
   void fail_join2(){

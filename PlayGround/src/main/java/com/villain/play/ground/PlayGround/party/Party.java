@@ -1,7 +1,6 @@
 package com.villain.play.ground.PlayGround.party;
 
 import com.villain.play.ground.PlayGround.album.Album;
-import com.villain.play.ground.PlayGround.constant.Artist;
 import com.villain.play.ground.PlayGround.reservation.Reservation;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -46,7 +45,6 @@ public class Party {
   private int maximum;
 
   private List<Reservation> reservationList;
-  private Artist artist;
 
   @Builder
   public Party(String platform, Album album, Long leader, Long recruit, int maximum){
@@ -55,7 +53,6 @@ public class Party {
     this.leader = leader;
     this.recruit = recruit;
     this.maximum = maximum;
-    this.artist = album.getArtist();
   }
   public void addReservation(Reservation reservation){
     reservationList.add(reservation);
@@ -74,5 +71,8 @@ public class Party {
 
   public void deleteAllReservations(){
     reservationList = new ArrayList<>();
+  }
+  public boolean isArtist(String name){
+    return album.isArtist(name) || name.equals(album.getName());
   }
 }

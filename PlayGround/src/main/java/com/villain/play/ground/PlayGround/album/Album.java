@@ -39,6 +39,7 @@ public class Album {
   public Artist getArtist(){
     return this.artist;
   }
+  public String getName(){ return this.name; }
 
   public List<String> getMembers(){
     return this.artist.getMembers();

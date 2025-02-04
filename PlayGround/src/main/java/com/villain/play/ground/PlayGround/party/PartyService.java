@@ -18,7 +18,7 @@ public class PartyService {
 
     String member = request.getMember();
     if(party.isReservedMember(member)) throw new IllegalArgumentException("[Error] Already reserved member. Please choose other one.");
-
+    if(party.isArtist(member) == false)throw new IllegalArgumentException("[Error] Please choose this album's artist.");
 
     party.addReservation(request);
   }
