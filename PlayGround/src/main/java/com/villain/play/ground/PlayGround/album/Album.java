@@ -9,7 +9,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import java.util.List;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
@@ -30,5 +30,17 @@ public class Album {
   public Album(String name, Artist artist){
     this.name = name;
     this.artist = artist;
+  }
+
+  public boolean isArtist(String name){
+    return artist.isIdentifiedMember(name);
+  }
+
+  public Artist getArtist(){
+    return this.artist;
+  }
+
+  public List<String> getMembers(){
+    return this.artist.getMembers();
   }
 }

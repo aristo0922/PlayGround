@@ -17,4 +17,8 @@ public enum Artist {
     }
     return false;
   }
+
+  public List<String> getMembers(){
+    return this.members;
+  }
 }
