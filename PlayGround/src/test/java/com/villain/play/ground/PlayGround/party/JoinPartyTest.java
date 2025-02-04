@@ -25,7 +25,7 @@ class JoinPartyTest {
 
   @Mock
   private PartyRepository partyRepository;
-  List<ReservationDTO> reservationDTOS = new ArrayList<>();
+  List<ReservationDTO> reservationDTO = new ArrayList<>();
 
   private Party party;
   Long targetId = 2L;
@@ -38,7 +38,7 @@ class JoinPartyTest {
     String user = "musk";
     String leader = "ant";
     for(String member : members){
-      reservationDTOS.add(new ReservationDTO(partyId, member, user));
+      reservationDTO.add(new ReservationDTO(partyId, member, user));
     }
 
     Album album = new Album("Live and Fall", Artist.XH);
@@ -51,7 +51,7 @@ class JoinPartyTest {
   @Test
   void join(){
     when(partyRepository.findPartyById(targetId)).thenReturn(party);
-    ReservationDTO newReservationDTO = reservationDTOS.get(2);
+    ReservationDTO newReservationDTO = reservationDTO.get(2);
 
     service.join(newReservationDTO);
 
@@ -66,7 +66,7 @@ class JoinPartyTest {
   @Test
   void fail_join(){
     when(partyRepository.findPartyById(targetId)).thenReturn(party);
-    ReservationDTO newReservationDTO = reservationDTOS.get(2);
+    ReservationDTO newReservationDTO = reservationDTO.get(2);
 
     service.join(newReservationDTO);
     Assertions.assertThrows(IllegalArgumentException.class, () -> service.join(newReservationDTO));
@@ -76,7 +76,7 @@ class JoinPartyTest {
   @Test
   void fail_join2(){
     when(partyRepository.findPartyById(targetId)).thenReturn(party);
-    ReservationDTO newReservationDTO = reservationDTOS.get(2);
+    ReservationDTO newReservationDTO = reservationDTO.get(2);
     newReservationDTO.setMember("아령");
 
     Assertions.assertThrows(IllegalArgumentException.class, () -> service.join(newReservationDTO));
