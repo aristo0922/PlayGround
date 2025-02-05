@@ -1,6 +1,7 @@
 package com.villain.play.ground.PlayGround.party;
 
 import com.villain.play.ground.PlayGround.request.NewParty;
+import com.villain.play.ground.PlayGround.reservation.Reservation;
 import com.villain.play.ground.PlayGround.reservation.ReservationDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,8 @@ public class PartyService {
     if(party.isReservedMember(member)) throw new IllegalArgumentException("[Error] Already reserved member. Please choose other one.");
     if(party.isArtist(member) == false)throw new IllegalArgumentException("[Error] Please choose this album's artist.");
 
-    party.addReservation(request);
+    Reservation reservation = new Reservation(party, member, request.getUser());
+    party.addReservation(reservation);
   }
 
   public Party save(NewParty newParty){

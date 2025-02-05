@@ -8,20 +8,33 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
+@NoArgsConstructor
 @Entity
-public class ReservationDAO {
+public class Reservation {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
 
   @ManyToOne
   @JoinColumn(name = "party_id")
-  private Party partyId;
+  private Party party;
 
   @Column
   private String member;
 
   @Column
   private String user;
+
+  public String getMember() {
+    return member;
+  }
+
+  public Reservation(Party party, String member, String user) {
+    this.party = party;
+    this.member = member;
+    this.user = user;
+  }
 }

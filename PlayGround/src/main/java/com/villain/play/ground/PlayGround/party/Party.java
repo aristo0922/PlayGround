@@ -1,6 +1,7 @@
 package com.villain.play.ground.PlayGround.party;
 
 import com.villain.play.ground.PlayGround.album.Album;
+import com.villain.play.ground.PlayGround.reservation.Reservation;
 import com.villain.play.ground.PlayGround.reservation.ReservationDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -46,7 +47,7 @@ public class Party {
   private int maximum;
 
   @OneToMany
-  private List<ReservationDTO> reservationDTOS;
+  private List<Reservation> reservations;
 
   @Builder
   public Party(String platform, Album album, Long leader, Long recruit, int maximum){
@@ -56,23 +57,24 @@ public class Party {
     this.recruit = recruit;
     this.maximum = maximum;
   }
-  public void addReservation(ReservationDTO reservationDTO){
-    reservationDTOS.add(reservationDTO);
+
+  public void addReservation(Reservation reservation){
+    reservations.add(reservation);
   }
 
   public boolean isFull() {
-    return maximum <= reservationDTOS.size() ? true : false;
+    return maximum <= reservations.size() ? true : false;
   }
 
   public boolean isReservedMember(String member){
-    for (ReservationDTO reservationDTO : reservationDTOS){
-      if(reservationDTO.getMember().equals(member)) return true;
+    for (Reservation reservation : reservations){
+      if(reservation.getMember().equals(member)) return true;
     }
     return false;
   }
 
   public void deleteAllReservations(){
-    reservationDTOS = new ArrayList<>();
+    this.reservations = new ArrayList<>();
   }
   public boolean isArtist(String name){
     return album.isArtist(name) || name.equals(album.getName());
