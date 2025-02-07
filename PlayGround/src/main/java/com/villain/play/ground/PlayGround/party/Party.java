@@ -46,7 +46,8 @@ public class Party {
   @Column
   private int maximum;
 
-  @OneToMany
+
+  @OneToMany(mappedBy = "party")
   private List<Reservation> reservations;
 
   @Builder
