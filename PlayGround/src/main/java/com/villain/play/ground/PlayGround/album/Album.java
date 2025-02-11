@@ -11,6 +11,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
@@ -32,7 +33,7 @@ public class Album {
   @Enumerated(value = EnumType.STRING)
   private Artist artist;
 
-  @JoinColumn(name = "party_id")
+  @OneToMany(mappedBy = "album")
   private List<Party> partyList;
 
   public Album(String name, Artist artist) {

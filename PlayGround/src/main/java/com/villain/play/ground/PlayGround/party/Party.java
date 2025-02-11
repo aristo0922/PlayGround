@@ -28,6 +28,7 @@ import lombok.ToString;
 @Entity
 @Data
 @NoArgsConstructor
+@Builder
 @AllArgsConstructor
 @Table(name = "party")
 public class Party {
@@ -51,14 +52,6 @@ public class Party {
   @OneToMany(mappedBy = "party")
   private List<Reservation> reservations;
 
-  @Builder
-  public Party(String platform, Album album, Long leader, Long recruit, int maximum){
-    this.platform=platform;
-    this.album = album;
-    this.leader = leader;
-    this.recruit = recruit;
-    this.maximum = maximum;
-  }
 
   public void addReservation(Reservation reservation){
     reservations.add(reservation);

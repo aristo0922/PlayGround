@@ -2,6 +2,7 @@ package com.villain.play.ground.PlayGround.party;
 
 
 import com.villain.play.ground.PlayGround.album.Album;
+import com.villain.play.ground.PlayGround.album.AlbumRepository;
 import com.villain.play.ground.PlayGround.constant.Artist;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,6 +25,8 @@ class PartyRepositoryTest {
 
   @Autowired
   private PartyRepository partyRepository;
+  @Autowired
+  private AlbumRepository albumRepository;
   private Party party;
   private Album album;
 
@@ -31,6 +34,7 @@ class PartyRepositoryTest {
   void setup(){
     partyRepository.deleteAll();
     album = new Album("Live and Fall", Artist.XDINARY_HEROES);
+    albumRepository.save(album);
   }
 
   @DisplayName("객체 저장 및 조회")
