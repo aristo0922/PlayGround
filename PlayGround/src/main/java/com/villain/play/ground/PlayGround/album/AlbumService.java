@@ -34,7 +34,8 @@ public class AlbumService {
     return albumList;
   }
 
-  public List<Album> getAlbumByArtist(Artist artist){
+  public List<Album> getAlbumByArtist(String artistName){
+    Artist artist = Artist.valueOf(artistName);
     return albumRepository.findByArtist(artist);
   }
 

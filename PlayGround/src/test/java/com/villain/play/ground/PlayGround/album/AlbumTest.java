@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 public class AlbumTest {
 
   private Album album;
+  String ARTIST="XDINARY_HEROES";
+
   @BeforeEach
   void setUp(){
     album = new Album("Live and Fall", Artist.XDINARY_HEROES);
@@ -19,7 +21,7 @@ public class AlbumTest {
   void test(){
     Artist artist = album.getArtist();
 
-    Assertions.assertEquals("XH", artist.toString());
+    Assertions.assertEquals(ARTIST, artist.toString());
     Assertions.assertEquals(6, artist.getMembers().size());
   }
 
