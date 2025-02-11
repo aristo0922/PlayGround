@@ -1,5 +1,7 @@
-package com.villain.play.ground.PlayGround.party;
+package com.villain.play.ground.PlayGround.album;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -29,70 +31,77 @@ public class AlbumServiceTest {
   @Mock
   private AlbumRepository albumRepository;
 
-  long ID = 1l;
-  String ALBUM_NAME="Dead Lock";
-  String ARTIST="XDINARY_HEROES";
-
-  AlbumDto dto = new AlbumDto(ALBUM_NAME, ARTIST, new ArrayList<>());
+  private final long ID = 1l;
+  private final String ALBUM_NAME="Dead Lock";
+  private final String ARTIST="XDINARY_HEROES";
+  private final AlbumDto dto = new AlbumDto(ALBUM_NAME, ARTIST, new ArrayList<>());
 
 
   @DisplayName("앨범 정보 저장")
   @Test
   void saveAlbum(){
+    // when: 실제 실행
     albumService.save(dto);
 
+    //then: 검증
     verify(albumRepository, times(1)).save(any(Album.class));
   }
 
   @DisplayName("아이디로 앨범 조회")
   @Test
   void getAlbumByIdTest(){
+    // given: 테스트 준비
     Album expect = Album.from(dto);
     expect.setId(ID);
     when(albumRepository.findById(ID)).thenReturn(Optional.of(expect));
 
+    // when
     Album result = albumService.getAlbumById(ID);
+
+    // then
     Assertions.assertEquals(expect, result);
   }
 
   @DisplayName("존재하지 않는 아이디 조회 시 에러")
   @Test
-  void nonExistId(){
+  void getAlbumByNonExistingId(){
+    // given
     when(albumRepository.findById(any())).thenReturn(Optional.empty());
+
+    // when & then
     Assertions.assertThrows(IllegalArgumentException.class, () -> albumService.getAlbumById(ID));
   }
 
-
-  @Spy
-  List<Album> validatorList = new ArrayList<>();
-
   @DisplayName("앨범 명으로 조회")
   @Test
-  void searchByAlbum(){
-    Album result = Album.from(dto);
-    result.setId(ID);
-    validatorList.add(result);
+  void searchByAlbumName(){
+    // given
+    Album album = Album.from(dto);
+    album.setId(ID);
+    List<Album> expectedList = List.of(album);
+    when(albumRepository.findByName(ALBUM_NAME)).thenReturn(expectedList);
 
-    when(albumRepository.findByName(ALBUM_NAME)).thenReturn(validatorList);
-    List<Album> list = albumService.getAlbumByName(ALBUM_NAME);
+    //when
+    List<Album> resultList = albumService.getAlbumByName(ALBUM_NAME);
 
-    for(int i = 0; i < validatorList.size(); i++){
-      Assertions.assertEquals(validatorList.get(i), list.get(i));
-    }
+    // then
+    Assertions.assertEquals(expectedList.size(), resultList.size());
+    assertIterableEquals(expectedList, resultList);
   }
 
   @DisplayName("아티스트 명으로 앨범 조회")
   @Test
-  void searchByArtist(){
-    String artist = ARTIST;
-    Album result = Album.from(dto);
-    validatorList.add(result);
+  void searchByArtistName(){
+    // given
+    Album album = Album.from(dto);
+    List<Album> expectedList = List.of(album);
+    when(albumRepository.findByArtist(any(Artist.class))).thenReturn(expectedList);
 
-    when(albumRepository.findByArtist(any(Artist.class))).thenReturn(validatorList);
-    List<Album> list = albumService.getAlbumByArtist(artist);
+    // when
+    List<Album> resultList = albumService.getAlbumByArtist(ARTIST);
 
-    for(int i = 0; i < validatorList.size(); i++){
-      Assertions.assertEquals(validatorList.get(i), list.get(i));
-    }
+    // then
+    assertEquals(expectedList.size(), resultList.size());
+    assertIterableEquals(expectedList, resultList);
   }
 }
