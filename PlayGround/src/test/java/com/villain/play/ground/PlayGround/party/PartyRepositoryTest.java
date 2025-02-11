@@ -30,7 +30,7 @@ class PartyRepositoryTest {
   @BeforeEach
   void setup(){
     partyRepository.deleteAll();
-    album = new Album("Live and Fall", Artist.XH);
+    album = new Album("Live and Fall", Artist.XDINARY_HEROES);
   }
 
   @DisplayName("객체 저장 및 조회")

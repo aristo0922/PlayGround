@@ -42,7 +42,7 @@ class JoinPartyTest {
       reservationDTO.add(new ReservationDTO(partyId, member, user));
     }
 
-    Album album = new Album("Live and Fall", Artist.XH);
+    Album album = new Album("Live and Fall", Artist.XDINARY_HEROES);
     party = new Party(targetId, "Sound Wave", album, 1L, 1L, 6, new ArrayList<>());
 
     initReservation = new Reservation(party, members[0], leader);

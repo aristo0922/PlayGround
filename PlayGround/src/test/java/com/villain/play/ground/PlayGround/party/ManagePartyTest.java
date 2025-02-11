@@ -40,7 +40,7 @@ public class ManagePartyTest {
 
   @BeforeEach
   void set_up() {
-    album = new Album("Live and Fall", Artist.XH);
+    album = new Album("Live and Fall", Artist.XDINARY_HEROES);
     party = new NewParty(album, PLATFORM, LEADER_ID, RECRUIT_ID, MAXIMUM);
     nonRecruit = new NewParty(album, PLATFORM, LEADER_ID, RECRUIT_ID, MAXIMUM);
     nonRecruit.setRecruit(null);

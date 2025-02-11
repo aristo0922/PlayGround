@@ -11,7 +11,7 @@ public class AlbumTest {
   private Album album;
   @BeforeEach
   void setUp(){
-    album = new Album("Live and Fall", Artist.XH);
+    album = new Album("Live and Fall", Artist.XDINARY_HEROES);
   }
 
   @Test
