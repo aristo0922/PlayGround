@@ -1,7 +1,9 @@
 package com.villain.play.ground.PlayGround.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface UserRepository extends JpaRepository<User, Long> {
   void insertUser(UserDTO user);
   void deleteUser(long userId);

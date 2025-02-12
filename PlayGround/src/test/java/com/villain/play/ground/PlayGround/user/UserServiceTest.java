@@ -14,20 +14,22 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+@ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
 
   @Mock
   PartyRepository partyRepository;
 
+
+  @Mock
+  UserRepository userRepository;
   @InjectMocks
   UserService userService;
-
-  @Autowired
-  UserRepository userRepository;
 
   private static Album album;
   private static final String ALBUM_NAME = "Live and Fall";
@@ -36,10 +38,9 @@ public class UserServiceTest {
 
 
   @BeforeEach
-  void setUp(){
+  void setUp() {
     album = new Album(ALBUM_NAME, Artist.XDINARY_HEROES);
   }
-
 
 
   @DisplayName("사용자를 생성할 수 있다.")
@@ -48,13 +49,15 @@ public class UserServiceTest {
     // Given
     User user = new User(VALID_USER_NAME, VALID_USER_EMAIL);
 
+    Assertions.assertEquals(VALID_USER_NAME, user.getName());
     // When
     when(userRepository.save(any(User.class))).thenReturn(null);
+    Assertions.assertEquals(VALID_USER_NAME, user.getName());
     User savedUser = userService.createUser(user);
 
     // Then
     Assertions.assertNotNull(savedUser);
-    Assertions.assertEquals("musk", savedUser.getName());
+    Assertions.assertEquals(VALID_USER_NAME, savedUser.getName());
   }
 
   @DisplayName("사용자는 본인이 생성한 파티의 리더여야 한다.")
