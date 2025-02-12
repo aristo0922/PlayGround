@@ -49,4 +49,8 @@ public class User {
   public void upgradeStatus(){
     this.status = Status.CERTIFICATED;
   }
+
+  public void downgradeStatus() {
+    this.status = Status.INACTIVE;
+  }
 }

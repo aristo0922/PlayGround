@@ -7,7 +7,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.villain.play.ground.PlayGround.constant.Status;
-import com.villain.play.ground.PlayGround.party.PartyRepository;
 import java.util.ArrayList;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
@@ -22,8 +21,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
 
-  @Mock
-  PartyRepository partyRepository;
 
 
   @Mock
@@ -81,7 +78,7 @@ public class UserServiceTest {
   @DisplayName("사용자의 현재 인증 상태를 확인할 수 있다.")
   @Test
   void verifyUserStatus(){
-    when(userRepository.findByUserId(anyLong())).thenReturn(Optional.of(activeUser));
+    when(userRepository.findById(anyLong())).thenReturn(Optional.of(activeUser));
     User foundUser = userService.getUserById(1L);
     Assertions.assertEquals(Status.ACTIVE, foundUser.getStatus());
   }
@@ -89,20 +86,15 @@ public class UserServiceTest {
   @DisplayName("파티 참여 횟수가 기준 이상이면 CERTIFICATED 로 등급 상승.")
   @Test
   void upgradeUserToCertificated(){
-    when(userRepository.findByUserId(anyLong())).thenReturn(Optional.of(activeUser));
+    when(userRepository.findById(anyLong())).thenReturn(Optional.of(activeUser));
     userService.checkAndUpgradeStatus(3L);
-
     Assertions.assertEquals(Status.CERTIFICATED, activeUser.getStatus());
   }
 
   @DisplayName("사용자의 Status 를 Downgrade 할 수 있다.")
   @Test
   void downgradeUser(){
-    when(userRepository.findByUserId(anyLong())).thenReturn(Optional.of(activeUser));
-    userService.checkAndDownGradeStatus(5L);
-    Assertions.assertEquals(Status.WARNING, activeUser.getStatus());
-
-    when(userRepository.findByUserId(anyLong())).thenReturn(Optional.of(warningUser));
+    when(userRepository.findById(anyLong())).thenReturn(Optional.of(warningUser));
     userService.checkAndDownGradeStatus(7L);
     Assertions.assertEquals(Status.INACTIVE, warningUser.getStatus());
   }

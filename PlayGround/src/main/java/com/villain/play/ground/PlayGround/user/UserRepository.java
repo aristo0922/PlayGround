@@ -6,14 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-  void insertUser(UserDTO user);
-  void deleteUser(long userId);
-  UserDTO findByEmailAndPassword(String id, String password);
 
-  long countPartyById(long userId);
-  long countLeaderById(long userId);
-  void updatePartyCount(UserDTO user);
-  void updateLeaderCount(UserDTO user);
-
-  Optional<User> findByUserId(long userId);
 }
