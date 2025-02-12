@@ -19,4 +19,8 @@ public class UserService {
     if(user.isActive()) return user;
     return null;
   }
+
+  public User createUser(User user) {
+    return user;
+  }
 }

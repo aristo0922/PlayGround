@@ -1,6 +1,8 @@
 package com.villain.play.ground.PlayGround.user;
 
-public interface UserRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface UserRepository extends JpaRepository<User, Long> {
   void insertUser(UserDTO user);
   void deleteUser(long userId);
   UserDTO findByEmailAndPassword(String id, String password);
