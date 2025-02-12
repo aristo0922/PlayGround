@@ -1,6 +1,7 @@
 package com.villain.play.ground.PlayGround.user;
 
 
+import com.villain.play.ground.PlayGround.constant.Status;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,10 +12,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Data
 public class UserDTO {
-
-  private enum Status{
-    ACTIVE, INACTIVE,WARNING
-  }
 
   private long id;
   private String name;

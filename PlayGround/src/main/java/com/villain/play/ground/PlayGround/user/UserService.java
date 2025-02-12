@@ -20,8 +20,7 @@ public class UserService {
     return null;
   }
 
-  public User createUser(User user) {
-    userRepository.save(user);
-    return user;
+  public void createUser(UserDTO dto) {
+    userRepository.save(User.from(dto));
   }
 }

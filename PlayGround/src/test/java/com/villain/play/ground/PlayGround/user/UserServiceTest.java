@@ -1,10 +1,13 @@
 package com.villain.play.ground.PlayGround.user;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.villain.play.ground.PlayGround.album.Album;
 import com.villain.play.ground.PlayGround.constant.Artist;
+import com.villain.play.ground.PlayGround.constant.Status;
 import com.villain.play.ground.PlayGround.party.Party;
 import com.villain.play.ground.PlayGround.party.PartyRepository;
 import com.villain.play.ground.PlayGround.reservation.Reservation;
@@ -35,10 +38,25 @@ public class UserServiceTest {
   private static final String ALBUM_NAME = "Live and Fall";
   private static final String VALID_USER_NAME = "musk";
   private static final String VALID_USER_EMAIL = "musk@example.com";
+  private static final String VALID_USER_PASSWORD = "password";
+  private static final String VALID_USER_ADDRESS = "서울시 강동구 성내동 올림픽수영장 입구 맞은편";
+
+  private static UserDTO validUserDto;
+  private static User validUser;
 
 
   @BeforeEach
   void setUp() {
+    // Given
+    validUserDto = UserDTO.builder().name(VALID_USER_NAME)
+        .email(VALID_USER_EMAIL)
+        .password(VALID_USER_PASSWORD)
+        .address(VALID_USER_ADDRESS)
+        .partyCount(0L)
+        .leaderCount(0L)
+        .status(Status.ACTIVE).build();
+    validUser = User.from(validUserDto);
+
     album = new Album(ALBUM_NAME, Artist.XDINARY_HEROES);
   }
 
@@ -47,17 +65,19 @@ public class UserServiceTest {
   @Test
   void createUser() {
     // Given
-    User user = new User(VALID_USER_NAME, VALID_USER_EMAIL);
+    UserDTO dto = UserDTO.builder().name(VALID_USER_NAME)
+        .email(VALID_USER_EMAIL)
+        .password(VALID_USER_PASSWORD)
+        .address(VALID_USER_ADDRESS)
+        .partyCount(0L)
+        .leaderCount(0L)
+        .status(Status.ACTIVE).build();
 
-    Assertions.assertEquals(VALID_USER_NAME, user.getName());
     // When
-    when(userRepository.save(any(User.class))).thenReturn(null);
-    Assertions.assertEquals(VALID_USER_NAME, user.getName());
-    User savedUser = userService.createUser(user);
+    userService.createUser(dto);
 
     // Then
-    Assertions.assertNotNull(savedUser);
-    Assertions.assertEquals(VALID_USER_NAME, savedUser.getName());
+    verify(userRepository, times(1)).save(any(User.class));
   }
 
   @DisplayName("사용자는 본인이 생성한 파티의 리더여야 한다.")
