@@ -26,12 +26,12 @@ public class PartyService {
     party.addReservation(reservation);
   }
 
-  public Party save(NewParty newParty){
-    if (newParty.hasNullField()) throw new IllegalArgumentException("[ ERROR ] There are any initialized fields.");
-    Party party = new Party.PartyBuilder().platform(newParty.getPlatform()).leader(newParty.getLeader()).recruit(newParty.getRecruit()).maximum(
-        newParty.getMaximum()).build();
-    return partyRepository.save(party);
-  }
+//  public Party save(NewParty newParty){
+//    if (newParty.hasNullField()) throw new IllegalArgumentException("[ ERROR ] There are any initialized fields.");
+//    Party party = new Party.PartyBuilder().platform(newParty.getPlatform()).leader(newParty.getLeader()).recruit(newParty.getRecruit()).maximum(
+//        newParty.getMaximum()).build();
+//    return partyRepository.save(party);
+//  }
 
   public Party getParty(Long id){
     Optional<Party> result =partyRepository.findPartyById(id);

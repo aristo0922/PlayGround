@@ -1,16 +1,13 @@
 package com.villain.play.ground.PlayGround.user;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.villain.play.ground.PlayGround.album.Album;
-import com.villain.play.ground.PlayGround.constant.Artist;
 import com.villain.play.ground.PlayGround.constant.Status;
-import com.villain.play.ground.PlayGround.party.Party;
 import com.villain.play.ground.PlayGround.party.PartyRepository;
-import com.villain.play.ground.PlayGround.reservation.Reservation;
 import java.util.ArrayList;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
@@ -34,15 +31,16 @@ public class UserServiceTest {
   @InjectMocks
   UserService userService;
 
-  private static Album album;
-  private static final String ALBUM_NAME = "Live and Fall";
   private static final String VALID_USER_NAME = "musk";
   private static final String VALID_USER_EMAIL = "musk@example.com";
   private static final String VALID_USER_PASSWORD = "password";
   private static final String VALID_USER_ADDRESS = "서울시 강동구 성내동 올림픽수영장 입구 맞은편";
 
   private static UserDTO validUserDto;
-  private static User validUser;
+  private static User activeUser;
+
+  private static UserDTO warningUserDTO;
+  private static User warningUser;
 
 
   @BeforeEach
@@ -52,61 +50,60 @@ public class UserServiceTest {
         .email(VALID_USER_EMAIL)
         .password(VALID_USER_PASSWORD)
         .address(VALID_USER_ADDRESS)
-        .partyCount(0L)
+        .partyCount(5L)
         .leaderCount(0L)
-        .status(Status.ACTIVE).build();
-    validUser = User.from(validUserDto);
+        .status(Status.ACTIVE)
+        .partyList(new ArrayList<>()).build();
+    activeUser = User.from(validUserDto);
 
-    album = new Album(ALBUM_NAME, Artist.XDINARY_HEROES);
+    warningUserDTO = UserDTO.builder().name(VALID_USER_NAME)
+        .email(VALID_USER_EMAIL)
+        .password(VALID_USER_PASSWORD)
+        .address(VALID_USER_ADDRESS)
+        .partyCount(5L)
+        .leaderCount(0L)
+        .status(Status.WARNING)
+        .partyList(new ArrayList<>()).build();
+    warningUser = User.from(warningUserDTO);
   }
 
 
   @DisplayName("사용자를 생성할 수 있다.")
   @Test
   void createUser() {
-    // Given
-    UserDTO dto = UserDTO.builder().name(VALID_USER_NAME)
-        .email(VALID_USER_EMAIL)
-        .password(VALID_USER_PASSWORD)
-        .address(VALID_USER_ADDRESS)
-        .partyCount(0L)
-        .leaderCount(0L)
-        .status(Status.ACTIVE).build();
-
     // When
-    userService.createUser(dto);
+    userService.createUser(validUserDto);
 
     // Then
     verify(userRepository, times(1)).save(any(User.class));
   }
 
-  @DisplayName("사용자는 본인이 생성한 파티의 리더여야 한다.")
+  @DisplayName("사용자의 현재 인증 상태를 확인할 수 있다.")
   @Test
-  void userIsLeaderOfCreatedParty() {
-    // Given
-    User leader = new User(VALID_USER_NAME, VALID_USER_EMAIL);
-    Party party = new Party(1L, "Sound Wave", album, leader.getId(), 1L, 6, new ArrayList<>());
-
-    // When
-    when(partyRepository.findById(any(Long.class))).thenReturn(Optional.of(party));
-
-    // Then
-    Assertions.assertEquals(leader.getId(), party.getLeader());
+  void verifyUserStatus(){
+    when(userRepository.findByUserId(anyLong())).thenReturn(Optional.of(activeUser));
+    User foundUser = userService.getUserById(1L);
+    Assertions.assertEquals(Status.ACTIVE, foundUser.getStatus());
   }
 
-  @DisplayName("사용자는 파티에 참가할 수 있다.")
+  @DisplayName("파티 참여 횟수가 기준 이상이면 CERTIFICATED 로 등급 상승.")
   @Test
-  void userCanJoinParty() {
-    // Given
-    User user = new User(VALID_USER_NAME, VALID_USER_EMAIL);
-    Party party = new Party(1L, "Sound Wave", album, 1L, 1L, 6, new ArrayList<>());
-    Reservation reservation = new Reservation(party, "정수", user.getName());
+  void upgradeUserToCertificated(){
+    when(userRepository.findByUserId(anyLong())).thenReturn(Optional.of(activeUser));
+    userService.checkAndUpgradeStatus(3L);
 
-    // When
-    when(partyRepository.findById(any(Long.class))).thenReturn(Optional.of(party));
-    party.addReservation(reservation);
+    Assertions.assertEquals(Status.CERTIFICATED, activeUser.getStatus());
+  }
 
-    // Then
-    Assertions.assertTrue(party.getReservations().contains(reservation));
+  @DisplayName("사용자의 Status 를 Downgrade 할 수 있다.")
+  @Test
+  void downgradeUser(){
+    when(userRepository.findByUserId(anyLong())).thenReturn(Optional.of(activeUser));
+    userService.checkAndDownGradeStatus(5L);
+    Assertions.assertEquals(Status.WARNING, activeUser.getStatus());
+
+    when(userRepository.findByUserId(anyLong())).thenReturn(Optional.of(warningUser));
+    userService.checkAndDownGradeStatus(7L);
+    Assertions.assertEquals(Status.INACTIVE, warningUser.getStatus());
   }
 }

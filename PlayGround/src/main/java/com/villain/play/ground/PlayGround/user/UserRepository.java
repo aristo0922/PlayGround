@@ -1,5 +1,6 @@
 package com.villain.play.ground.PlayGround.user;
 
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,5 +15,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
   void updatePartyCount(UserDTO user);
   void updateLeaderCount(UserDTO user);
 
-  UserDTO findByUserId(long userId);
+  Optional<User> findByUserId(long userId);
 }

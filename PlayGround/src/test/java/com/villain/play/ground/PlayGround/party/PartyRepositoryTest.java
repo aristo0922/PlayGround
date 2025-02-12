@@ -3,6 +3,7 @@ package com.villain.play.ground.PlayGround.party;
 import com.villain.play.ground.PlayGround.album.Album;
 import com.villain.play.ground.PlayGround.album.AlbumRepository;
 import com.villain.play.ground.PlayGround.constant.Artist;
+import com.villain.play.ground.PlayGround.user.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -29,13 +30,15 @@ class PartyRepositoryTest {
   @Autowired
   private AlbumRepository albumRepository;
 
-  private Album album;
+  private static Album album;
+  private static User userLeader;
 
   @BeforeEach
   void setup() {
     partyRepository.deleteAll();
     album = new Album("Live and Fall", Artist.XDINARY_HEROES);
     albumRepository.save(album);
+    userLeader = new User("name", "email");
   }
 
   @DisplayName("객체 저장 및 조회")
@@ -44,7 +47,7 @@ class PartyRepositoryTest {
     // given
     Party party = new Party.PartyBuilder()
         .album(album)
-        .leader(0L)
+        .leader(userLeader)
         .maximum(6)
         .recruit(0L)
         .platform("# form")

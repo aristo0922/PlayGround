@@ -1,7 +1,6 @@
 package com.villain.play.ground.PlayGround.user;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
@@ -22,5 +21,17 @@ public class UserService {
 
   public void createUser(UserDTO dto) {
     userRepository.save(User.from(dto));
+  }
+
+  public User getUserById(long id) {
+    return userRepository.findByUserId(id).orElseThrow(IllegalArgumentException::new);
+  }
+
+  public void checkAndUpgradeStatus(long activeUser) {
+
+  }
+
+  public void checkAndDownGradeStatus(long activeUser) {
+
   }
 }

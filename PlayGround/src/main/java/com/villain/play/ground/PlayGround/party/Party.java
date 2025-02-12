@@ -3,6 +3,7 @@ package com.villain.play.ground.PlayGround.party;
 import com.villain.play.ground.PlayGround.album.Album;
 import com.villain.play.ground.PlayGround.reservation.Reservation;
 import com.villain.play.ground.PlayGround.reservation.ReservationDTO;
+import com.villain.play.ground.PlayGround.user.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -41,8 +42,9 @@ public class Party {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "album_id")
   private Album album;
-  @Column
-  private Long leader;
+  @ManyToOne
+  @JoinColumn(name = "user_id")
+  private User leader;
   @Column
   private Long recruit;
   @Column
