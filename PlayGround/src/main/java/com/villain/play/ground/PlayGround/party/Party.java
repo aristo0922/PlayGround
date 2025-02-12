@@ -1,11 +1,17 @@
 package com.villain.play.ground.PlayGround.party;
 
+import com.villain.play.ground.PlayGround.album.Album;
 import com.villain.play.ground.PlayGround.reservation.Reservation;
+import com.villain.play.ground.PlayGround.reservation.ReservationDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,17 +28,19 @@ import lombok.ToString;
 @Entity
 @Data
 @NoArgsConstructor
+@Builder
 @AllArgsConstructor
 @Table(name = "party")
 public class Party {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "party_id")
   private Long id;
   @Column
   private String platform;
-  @Column
-  private String album;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "album_id")
+  private Album album;
   @Column
   private Long leader;
   @Column
@@ -40,32 +48,30 @@ public class Party {
   @Column
   private int maximum;
 
-  private static List<Reservation> reservationList = new ArrayList<>();
 
-  @Builder
-  public Party(String platform, String album, Long leader, Long recruit, int maximum){
-    this.platform=platform;
-    this.album = album;
-    this.leader = leader;
-    this.recruit = recruit;
-    this.maximum = maximum;
-  }
+  @OneToMany(mappedBy = "party")
+  private List<Reservation> reservations;
+
+
   public void addReservation(Reservation reservation){
-    reservationList.add(reservation);
+    reservations.add(reservation);
   }
 
   public boolean isFull() {
-    return maximum <= reservationList.size() ? true : false;
+    return maximum <= reservations.size() ? true : false;
   }
 
   public boolean isReservedMember(String member){
-    for (Reservation reservation: reservationList){
+    for (Reservation reservation : reservations){
       if(reservation.getMember().equals(member)) return true;
     }
     return false;
   }
 
   public void deleteAllReservations(){
-    reservationList = new ArrayList<>();
+    this.reservations = new ArrayList<>();
+  }
+  public boolean isArtist(String name){
+    return album.isArtist(name) || name.equals(album.getName());
   }
 }

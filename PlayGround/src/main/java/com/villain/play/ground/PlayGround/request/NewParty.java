@@ -1,6 +1,7 @@
 package com.villain.play.ground.PlayGround.request;
 
 
+import com.villain.play.ground.PlayGround.album.Album;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,14 +11,14 @@ import lombok.Setter;
 @Getter
 public class NewParty {
 
-  private String album;
+  private Album album;
   private String platform;
   private Long leader;
   private Long recruit;
   private int maximum;
 
   public boolean hasNullField(){
-    return album.equals("")|| platform.equals("")||
+    return album == null || platform.equals("")||
         leader==null || recruit == null ;
   }
 }

@@ -2,6 +2,8 @@ package com.villain.play.ground.PlayGround.party;
 
 import com.villain.play.ground.PlayGround.request.NewParty;
 import com.villain.play.ground.PlayGround.reservation.Reservation;
+import com.villain.play.ground.PlayGround.reservation.ReservationDTO;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,9 +14,16 @@ import org.springframework.transaction.annotation.Transactional;
 public class PartyService {
 
   private final PartyRepository partyRepository;
-  public void join(Reservation request){
+  public void join(ReservationDTO request){
     Long partyId = request.getPartyId();
-    Party party = partyRepository.findPartyById(partyId);
+    Party party = partyRepository.findPartyById(partyId).get();
+
+    String member = request.getMember();
+    if(party.isReservedMember(member)) throw new IllegalArgumentException("[Error] Already reserved member. Please choose other one.");
+    if(party.isArtist(member) == false)throw new IllegalArgumentException("[Error] Please choose this album's artist.");
+
+    Reservation reservation = new Reservation(party, member, request.getUser());
+    party.addReservation(reservation);
   }
 
   public Party save(NewParty newParty){
@@ -25,14 +34,16 @@ public class PartyService {
   }
 
   public Party getParty(Long id){
-    return partyRepository.findPartyById(id);
-  }
-  public Party detail(Long id) {
-    return partyRepository.findPartyById(id);
+    Optional<Party> result =partyRepository.findPartyById(id);
+    if(result.isEmpty())
+      throw new IllegalArgumentException("[ ERROR ] 존재하지 않는 파티 정보 입니다.");
+    return result.get();
   }
 
   public void deleteAllReservations(Long id){
-    Party party = partyRepository.findPartyById(id);
-    party.deleteAllReservations();
+    Optional<Party> result =partyRepository.findPartyById(id);
+    if(result.isEmpty())
+      throw new IllegalArgumentException("[ ERROR ] 존재하지 않는 파티 정보 입니다.");
+    result.get().deleteAllReservations();
   }
 }
