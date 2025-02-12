@@ -80,7 +80,7 @@ public class UserServiceTest {
   @Test
   void verifyUserStatus(){
     when(userRepository.findById(anyLong())).thenReturn(Optional.of(activeUser));
-    User foundUser = userService.getUserById(1L);
+    User foundUser = userService.findById(1L);
     Assertions.assertEquals(Status.ACTIVE, foundUser.getStatus());
   }
 

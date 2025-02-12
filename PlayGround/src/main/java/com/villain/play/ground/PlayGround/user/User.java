@@ -2,8 +2,11 @@ package com.villain.play.ground.PlayGround.user;
 
 import com.villain.play.ground.PlayGround.constant.Status;
 import com.villain.play.ground.PlayGround.party.Party;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -26,11 +29,12 @@ public class User {
   private String email;
   private String password;
   private String address;
+  @Enumerated(EnumType.STRING)
   private Status status;
   private Long partyCount;
   private Long leaderCount;
 
-  @OneToMany(mappedBy = "leader")
+  @OneToMany(mappedBy = "leader", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Party> partyLists;
 
   public User(String name, String email) {

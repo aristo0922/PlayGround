@@ -20,7 +20,7 @@ public class UserService {
     userRepository.save(User.from(dto));
   }
 
-  public User getUserById(long id) {
+  public User findById(long id) {
     return userRepository.findById(id).orElseThrow(IllegalArgumentException::new);
   }
 

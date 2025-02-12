@@ -4,11 +4,18 @@ package com.villain.play.ground.PlayGround.party;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.villain.play.ground.PlayGround.album.Album;
 import com.villain.play.ground.PlayGround.constant.Artist;
+import com.villain.play.ground.PlayGround.constant.Status;
 import com.villain.play.ground.PlayGround.request.NewParty;
+import com.villain.play.ground.PlayGround.user.User;
+import com.villain.play.ground.PlayGround.user.UserDTO;
+import com.villain.play.ground.PlayGround.user.UserService;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,7 +39,10 @@ public class ManagePartyTest {
   private static int MAXIMUM = 6;
 
   @InjectMocks
-  private PartyService service;
+  private PartyService partyService;
+
+  @Mock
+  private UserService userService;
 
   @Mock
   private PartyRepository partyRepository;
@@ -41,10 +51,13 @@ public class ManagePartyTest {
   private static NewParty validParty;
   private static NewParty invalidParty;
   private static Party savedParty;
+  private static User userLeader;
 
   @BeforeEach
   void set_up() {
     //given
+    userLeader = User.from(UserDTO.builder().id(LEADER_ID).status(Status.ACTIVE).build());
+
     album = new Album("Live and Fall", Artist.XDINARY_HEROES);
     validParty = new NewParty(album, PLATFORM, LEADER_ID, RECRUIT_ID, MAXIMUM);
     invalidParty = new NewParty(album, PLATFORM, LEADER_ID, RECRUIT_ID, MAXIMUM);
@@ -56,26 +69,20 @@ public class ManagePartyTest {
   }
 
 
-//  @DisplayName("파티를 생성할 수 있다.")
-//  @Test
-//  void shouldCreateParty() {
-//    when(partyRepository.save(any())).thenReturn(savedParty);
-//
-//    Party result = service.save(validParty);
-//
-//    assertNotNull(result);
-//
-//    assertEquals(PLATFORM, result.getPlatform());
-//    assertEquals(album, result.getAlbum());
-//    assertEquals(LEADER_ID, result.getLeader());
-//    assertEquals(RECRUIT_ID, result.getRecruit());
-//    assertEquals(MAXIMUM, result.getMaximum());
-//  }
+  @DisplayName("파티를 생성할 수 있다.")
+  @Test
+  void shouldCreateParty() {
+    when(userService.findById(anyLong())).thenReturn(userLeader);
+
+    partyService.save(validParty);
+
+    verify(partyRepository, times(1)).save(any(Party.class));
+  }
 
   @DisplayName("빈 필드 존재 시 파티를 생성할 수 없다.")
   @Test
   void shouldThrowExceptionWhenCreatingInvalidParty() {
-//    Assertions.assertThrows(IllegalArgumentException.class, () -> service.save(invalidParty));
+    Assertions.assertThrows(IllegalArgumentException.class, () -> partyService.save(invalidParty));
   }
 
   @DisplayName("생성한 파티를 조회할 수 있다.")
@@ -85,7 +92,7 @@ public class ManagePartyTest {
     when(partyRepository.findPartyById(PARTY_ID)).thenReturn(Optional.of(savedParty));
 
     //when
-    Party result = service.getParty(PARTY_ID);
+    Party result = partyService.getParty(PARTY_ID);
 
     // then
     assertNotNull(result);
@@ -97,11 +104,11 @@ public class ManagePartyTest {
   @Test
   void cannot_read() {
     // given
-    when(partyRepository.findPartyById(INVALID_PARTY_ID)).thenReturn(null);
+    when(partyRepository.findPartyById(INVALID_PARTY_ID)).thenReturn(Optional.empty());
 
     //when & then
     Assertions.assertThrows(IllegalArgumentException.class,
-        () -> service.getParty(INVALID_PARTY_ID));
+        () -> partyService.getParty(INVALID_PARTY_ID));
   }
 
 
