@@ -1,6 +1,7 @@
 package com.villain.play.ground.PlayGround.party;
 
 
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -12,7 +13,7 @@ public interface PartyRepository extends JpaRepository<Party, Long> {
   Party save(Party party);
 
   @Query("SELECT p FROM Party p WHERE p.id = :id")
-  Party findPartyById(@Param("id") Long id);
+  Optional<Party> findPartyById(@Param("id") Long id);
 
   void deleteAll();
 }

@@ -9,6 +9,7 @@ import com.villain.play.ground.PlayGround.reservation.Reservation;
 import com.villain.play.ground.PlayGround.reservation.ReservationDTO;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -26,20 +27,22 @@ class JoinPartyTest {
 
   @Mock
   private PartyRepository partyRepository;
-  List<ReservationDTO> reservationDTO = new ArrayList<>();
+  private List<ReservationDTO> reservationDTOList;
 
   private Party party;
-  Long targetId = 2L;
-  Reservation initReservation;
+  private static final Long targetId = 2L;
+  private static final String leader = "ant";
+  private static final String user = "musk";
+  private static Reservation initReservation;
 
   @BeforeEach
   void init() {
+    // given: 파티 및 예약 데이터 초기화
     String[] members = {"건일", "정수", "가온", "오드", "준한", "주연"};
-    long partyId = targetId;
-    String user = "musk";
-    String leader = "ant";
+
+    reservationDTOList = new ArrayList<>();
     for(String member : members){
-      reservationDTO.add(new ReservationDTO(partyId, member, user));
+      reservationDTOList.add(new ReservationDTO(targetId, member, user));
     }
 
     Album album = new Album("Live and Fall", Artist.XDINARY_HEROES);
@@ -51,41 +54,43 @@ class JoinPartyTest {
 
   @DisplayName("기존에 존재하는 ant 파티 참가하기")
   @Test
-  void join(){
-    when(partyRepository.findPartyById(targetId)).thenReturn(party);
-    ReservationDTO newReservationDTO = reservationDTO.get(2);
-    Reservation newReservation = new Reservation(party, newReservationDTO.getMember(), newReservationDTO.getUser());
+  void joinPartySuccessfully(){
+    // given
+    when(partyRepository.findPartyById(targetId)).thenReturn(Optional.of(party));
+    ReservationDTO newReservationDTO = reservationDTOList.get(2);
 
+    // when
     service.join(newReservationDTO);
-
     Party result = service.getParty(targetId);
     List<Reservation> reservations = result.getReservations();
-    System.out.println(reservations.size());
 
+    // then
+    Assertions.assertEquals(2, reservations.size());
     Assertions.assertEquals(initReservation, reservations.get(0));
-    Reservation newOne = reservations.get(1);
-//    Assertions.assertEquals(newReservation, reservations.get(1));
+    Assertions.assertEquals(newReservationDTO.getMember(), reservations.get(1).getMember());
+    Assertions.assertEquals(newReservationDTO.getUser(), reservations.get(1).getUser());
+    Assertions.assertEquals(newReservationDTO.getPartyId(), reservations.get(1).getParty());
   }
 
   @DisplayName("이미 선점된 멤버로 파티 참가 불가")
   @Test
-  void fail_join(){
-    when(partyRepository.findPartyById(targetId)).thenReturn(party);
-    ReservationDTO newReservationDTO = reservationDTO.get(2);
+  void failToJoinWithExistingMember(){
+    // given
+    when(partyRepository.findPartyById(targetId)).thenReturn(Optional.of(party));
+    ReservationDTO newReservationDTO = reservationDTOList.get(0); // 이미 예약된 멤버
 
-    service.join(newReservationDTO);
     Assertions.assertThrows(IllegalArgumentException.class, () -> service.join(newReservationDTO));
   }
 
   @DisplayName("존재하지 않는 멤버는 선점할 수 없다.")
   @Test
-  void fail_join2(){
-    when(partyRepository.findPartyById(targetId)).thenReturn(party);
-    ReservationDTO newReservationDTO = reservationDTO.get(2);
+  void failToJoinWithInvalidMember(){
+    // given
+    when(partyRepository.findPartyById(targetId)).thenReturn(Optional.of(party));
+    ReservationDTO newReservationDTO = new ReservationDTO(targetId, "아령", "musk");
     newReservationDTO.setMember("아령");
 
+    // when & then
     Assertions.assertThrows(IllegalArgumentException.class, () -> service.join(newReservationDTO));
   }
-
-
 }

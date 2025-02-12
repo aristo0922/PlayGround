@@ -52,7 +52,7 @@ class PartyRepositoryTest {
 
     // when
     Party savedParty = partyRepository.save(party);
-    Party foundParty = partyRepository.findPartyById(savedParty.getId());
+    Party foundParty = partyRepository.findPartyById(savedParty.getId()).orElseThrow(IllegalArgumentException::new);
 
     // then
     assertNotNull(savedParty);

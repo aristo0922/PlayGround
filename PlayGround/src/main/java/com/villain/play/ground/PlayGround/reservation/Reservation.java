@@ -31,6 +31,8 @@ public class Reservation {
   public String getMember() {
     return member;
   }
+  public String getUser() { return user; }
+  public Long getParty(){ return this.party.getId(); }
 
   public Reservation(Party party, String member, String user) {
     this.party = party;
