@@ -19,7 +19,7 @@ public class PartyController {
 
   @PostMapping
   public void create(@RequestBody NewParty party){
-    partyService.save(party);
+//    partyService.save(party);
   }
 
   @GetMapping("/{partyId}")

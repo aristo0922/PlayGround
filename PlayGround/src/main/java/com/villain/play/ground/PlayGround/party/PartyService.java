@@ -3,6 +3,8 @@ package com.villain.play.ground.PlayGround.party;
 import com.villain.play.ground.PlayGround.request.NewParty;
 import com.villain.play.ground.PlayGround.reservation.Reservation;
 import com.villain.play.ground.PlayGround.reservation.ReservationDTO;
+import com.villain.play.ground.PlayGround.user.User;
+import com.villain.play.ground.PlayGround.user.UserService;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class PartyService {
 
   private final PartyRepository partyRepository;
+  private final UserService userService;
+
   public void join(ReservationDTO request){
     Long partyId = request.getPartyId();
     Party party = partyRepository.findPartyById(partyId).get();
@@ -28,7 +32,8 @@ public class PartyService {
 
   public Party save(NewParty newParty){
     if (newParty.hasNullField()) throw new IllegalArgumentException("[ ERROR ] There are any initialized fields.");
-    Party party = new Party.PartyBuilder().platform(newParty.getPlatform()).leader(newParty.getLeader()).recruit(newParty.getRecruit()).maximum(
+    User user = userService.findById(newParty.getLeader());
+    Party party = new Party.PartyBuilder().platform(newParty.getPlatform()).leader(user).recruit(newParty.getRecruit()).maximum(
         newParty.getMaximum()).build();
     return partyRepository.save(party);
   }

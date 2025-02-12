@@ -7,6 +7,7 @@ import com.villain.play.ground.PlayGround.album.Album;
 import com.villain.play.ground.PlayGround.constant.Artist;
 import com.villain.play.ground.PlayGround.reservation.Reservation;
 import com.villain.play.ground.PlayGround.reservation.ReservationDTO;
+import com.villain.play.ground.PlayGround.user.User;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -35,6 +36,8 @@ class JoinPartyTest {
   private static final String user = "musk";
   private static Reservation initReservation;
 
+  private static User userLeader;
+
   @BeforeEach
   void init() {
     // given: 파티 및 예약 데이터 초기화
@@ -45,8 +48,10 @@ class JoinPartyTest {
       reservationDTOList.add(new ReservationDTO(targetId, member, user));
     }
 
+    userLeader = new User("name", "email");
+
     Album album = new Album("Live and Fall", Artist.XDINARY_HEROES);
-    party = new Party(targetId, "Sound Wave", album, 1L, 1L, 6, new ArrayList<>());
+    party = new Party(targetId, "Sound Wave", album, userLeader, 1L, 6, new ArrayList<>());
 
     initReservation = new Reservation(party, members[0], leader);
     party.addReservation(initReservation);

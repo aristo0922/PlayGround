@@ -38,6 +38,10 @@ public class UserController {
     if (LoginRequest.hasBlankFields(user)) {
       throw new IllegalArgumentException("입력값에 빈 필드가 존재합니다.");
     }
-    UserDTO authUser = userService.login(user.getEmail(), user.getPassword());
+    try{
+      User authUser = userService.login(user.getEmail(), user.getPassword());
+    }catch (IllegalArgumentException e){
+      return;
+    }
   }
 }

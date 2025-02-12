@@ -1,14 +1,12 @@
 package com.villain.play.ground.PlayGround.user;
 
-public interface UserRepository {
-  void insertUser(UserDTO user);
-  void deleteUser(long userId);
-  UserDTO findByEmailAndPassword(String id, String password);
+import java.util.Optional;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-  long countPartyById(long userId);
-  long countLeaderById(long userId);
-  void updatePartyCount(UserDTO user);
-  void updateLeaderCount(UserDTO user);
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
 
-  UserDTO findByUserId(long userId);
+  Optional<User> findByEmail(String email);
+  User save(User user);
 }
