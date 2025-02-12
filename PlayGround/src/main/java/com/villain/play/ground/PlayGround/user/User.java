@@ -53,4 +53,10 @@ public class User {
   public void downgradeStatus() {
     this.status = Status.INACTIVE;
   }
+
+  public boolean checkSamePassword(String password) {
+    if(this.status == Status.INACTIVE) throw new IllegalArgumentException("[Error] Access Denied account.");
+    if(this.password.equals(password)) return true;
+    return false;
+  }
 }

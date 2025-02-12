@@ -9,14 +9,11 @@ public class UserService {
 
   private final UserRepository userRepository;
 
-//  public void register(UserDTO user){
-//    userRepository.insertUser(user);
-//  }
-
-  public UserDTO login(String email, String password){
-//    UserDTO user = userRepository.findByEmailAndPassword(email, password);
-//    if(user.isActive()) return user;
-    return null;
+  public User login(String email, String password) throws IllegalArgumentException {
+    User userInfo = userRepository.findByEmail(email).orElseThrow(IllegalArgumentException::new);
+    if(userInfo.checkSamePassword(password))
+      return userInfo;
+    throw new IllegalArgumentException("[Error] Incorrect Password.");
   }
 
   public void createUser(UserDTO dto) {

@@ -2,6 +2,7 @@ package com.villain.play.ground.PlayGround.user;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -65,7 +66,7 @@ public class UserServiceTest {
   }
 
 
-  @DisplayName("사용자를 생성할 수 있다.")
+  @DisplayName("회원가입이 정상적으로 이뤄진다.")
   @Test
   void createUser() {
     // When
@@ -97,5 +98,32 @@ public class UserServiceTest {
     when(userRepository.findById(anyLong())).thenReturn(Optional.of(warningUser));
     userService.checkAndDownGradeStatus(7L);
     Assertions.assertEquals(Status.INACTIVE, warningUser.getStatus());
+  }
+
+  @DisplayName("이메일과 비밀번호가 일치하면 로그인이 성공한다..")
+  @Test
+  void loginSuccess() throws IllegalArgumentException{
+    when(userRepository.findByEmail(VALID_USER_EMAIL)).thenReturn(Optional.of(activeUser));
+    User loginedUser=null;
+    loginedUser = userService.login(VALID_USER_EMAIL, VALID_USER_PASSWORD);
+
+    Assertions.assertNotNull(loginedUser);
+    Assertions.assertEquals(VALID_USER_NAME, loginedUser.getName());
+  }
+
+  @DisplayName("잘못된 비밀번호로 로그인할 경우 예외가 발생한다.")
+  @Test
+  void loginFailDueToWrongPassword() {
+    when(userRepository.findByEmail(VALID_USER_EMAIL)).thenReturn(Optional.of(activeUser));
+    Assertions.assertThrows(IllegalArgumentException.class, () -> userService.login(VALID_USER_EMAIL, "wrongPassword"));
+  }
+
+  @DisplayName("존재하지 않는 이메일로 로그인할 경우 예외가 발생한다.")
+  @Test
+  void loginFailDutoNonExistentEmail(){
+    when(userRepository.findByEmail(anyString())).thenReturn(Optional.empty());
+
+    Assertions.assertThrows(IllegalArgumentException.class, () ->
+        userService.login("unknown@example.com", VALID_USER_PASSWORD));
   }
 }
