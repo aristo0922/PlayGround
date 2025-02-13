@@ -37,4 +37,7 @@ public class UserDTO {
   public boolean isActive(){
     return status == Status.ACTIVE ? true : false;
   }
+  public boolean undefinedState(){
+    return this.status == null ? true:false;
+  }
 }

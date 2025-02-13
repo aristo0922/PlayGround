@@ -73,7 +73,8 @@ public class Party {
   public void deleteAllReservations(){
     this.reservations = new ArrayList<>();
   }
+
   public boolean isArtist(String name){
-    return album.isArtist(name) || name.equals(album.getName());
+    return album.isArtist(name);
   }
 }

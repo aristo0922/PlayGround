@@ -2,6 +2,7 @@ package com.villain.play.ground.PlayGround.user;
 
 import com.villain.play.ground.PlayGround.constant.Status;
 import com.villain.play.ground.PlayGround.party.Party;
+import com.villain.play.ground.PlayGround.utils.Encryptor;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -43,11 +44,11 @@ public class User {
   }
 
   public static User from(UserDTO dto){
-    Status status = dto.getStatus();
-    if(dto.getStatus() == null){
-      throw new IllegalStateException("[ERROR] 사용자 상태가 불분명합니다. 다시 확인해주세요.");
-    }
-    return new User(dto.getId(), dto.getName(), dto.getEmail(), dto.getPassword(), dto.getAddress(), status, dto.getPartyCount(), dto.getLeaderCount(), dto.getPartyList());
+    return new User(dto.getId(), dto.getName(), dto.getEmail(), dto.getPassword(), dto.getAddress(), dto.getStatus(), dto.getPartyCount(), dto.getLeaderCount(), dto.getPartyList());
+  }
+
+  public static User of(UserDTO dto, String password){
+    return new User(dto.getId(), dto.getName(), dto.getEmail(), password, dto.getAddress(), dto.getStatus(), dto.getPartyCount(), dto.getLeaderCount(), dto.getPartyList());
   }
 
   public void upgradeStatus(){
@@ -60,7 +61,12 @@ public class User {
 
   public boolean checkSamePassword(String password) {
     if(this.status == Status.INACTIVE) throw new IllegalArgumentException("[Error] Access Denied account.");
-    if(this.password.equals(password)) return true;
+    if(Encryptor.isMatch(password, this.password)) return true;
     return false;
+  }
+
+  public boolean isActive(){
+    if(this.status == Status.INACTIVE) return false;
+    return true;
   }
 }

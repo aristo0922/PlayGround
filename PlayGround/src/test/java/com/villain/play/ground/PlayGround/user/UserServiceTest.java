@@ -8,6 +8,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.villain.play.ground.PlayGround.constant.Status;
+import com.villain.play.ground.PlayGround.utils.Encryptor;
 import java.util.ArrayList;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
@@ -26,12 +27,14 @@ public class UserServiceTest {
 
   @Mock
   UserRepository userRepository;
+
   @InjectMocks
   UserService userService;
 
   private static final String VALID_USER_NAME = "musk";
   private static final String VALID_USER_EMAIL = "musk@example.com";
   private static final String VALID_USER_PASSWORD = "password";
+  private static String hashed;
   private static final String VALID_USER_ADDRESS = "서울시 강동구 성내동 올림픽수영장 입구 맞은편";
 
   private static UserDTO validUserDto;
@@ -43,10 +46,12 @@ public class UserServiceTest {
 
   @BeforeEach
   void setUp() {
+    hashed = Encryptor.encrypt(VALID_USER_PASSWORD);
+
     // Given
     validUserDto = UserDTO.builder().name(VALID_USER_NAME)
         .email(VALID_USER_EMAIL)
-        .password(VALID_USER_PASSWORD)
+        .password(hashed)
         .address(VALID_USER_ADDRESS)
         .partyCount(5L)
         .leaderCount(0L)
