@@ -1,5 +1,6 @@
 package com.villain.play.ground.PlayGround.user;
 
+import com.villain.play.ground.PlayGround.utils.EncryptHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
   private final UserRepository userRepository;
+  private final EncryptHelper encryptHelper;
 
   public User login(String email, String password) throws IllegalArgumentException {
     User userInfo = userRepository.findByEmail(email).orElseThrow(IllegalArgumentException::new);

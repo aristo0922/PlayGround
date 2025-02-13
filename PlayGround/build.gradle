@@ -24,11 +24,13 @@ dependencies {
 	implementation 'com.mysql:mysql-connector-j:8.3.0'
 	testImplementation 'com.mysql:mysql-connector-j:8.3.0'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.testng:testng:7.1.0'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 
+	implementation 'org.mindrot:jbcrypt:0.4'
 	testCompileOnly 'org.projectlombok:lombok'
 	testAnnotationProcessor 'org.projectlombok:lombok'
 }
