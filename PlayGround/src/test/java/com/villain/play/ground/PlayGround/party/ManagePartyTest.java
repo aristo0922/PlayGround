@@ -13,7 +13,7 @@ import com.villain.play.ground.PlayGround.album.Album;
 import com.villain.play.ground.PlayGround.constant.Artist;
 import com.villain.play.ground.PlayGround.constant.Status;
 import com.villain.play.ground.PlayGround.request.NewParty;
-import com.villain.play.ground.PlayGround.user.User;
+import com.villain.play.ground.PlayGround.user.entity.User;
 import com.villain.play.ground.PlayGround.user.UserDTO;
 import com.villain.play.ground.PlayGround.user.UserService;
 import java.util.Optional;
@@ -56,7 +56,7 @@ public class ManagePartyTest {
   @BeforeEach
   void set_up() {
     //given
-    userLeader = User.from(UserDTO.builder().id(LEADER_ID).status(Status.ACTIVE).build());
+    userLeader = User.of(UserDTO.builder().id(LEADER_ID).status(Status.ACTIVE).build());
 
     album = new Album("Live and Fall", Artist.XDINARY_HEROES);
     validParty = new NewParty(album, PLATFORM, LEADER_ID, RECRUIT_ID, MAXIMUM);

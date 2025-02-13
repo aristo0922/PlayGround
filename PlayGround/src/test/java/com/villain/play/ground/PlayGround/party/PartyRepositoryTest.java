@@ -4,11 +4,10 @@ import com.villain.play.ground.PlayGround.album.Album;
 import com.villain.play.ground.PlayGround.album.AlbumRepository;
 import com.villain.play.ground.PlayGround.constant.Artist;
 import com.villain.play.ground.PlayGround.constant.Status;
-import com.villain.play.ground.PlayGround.user.User;
+import com.villain.play.ground.PlayGround.user.entity.User;
 import com.villain.play.ground.PlayGround.user.UserDTO;
 import com.villain.play.ground.PlayGround.user.UserRepository;
 import java.util.ArrayList;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -56,7 +55,7 @@ class PartyRepositoryTest {
         .leaderCount(0L)
         .status(Status.ACTIVE)
         .partyList(new ArrayList<>()).build();
-    userLeader = User.from(userLeaderDto);
+    userLeader = User.of(userLeaderDto);
     userLeader = userRepository.save(userLeader);
     album = new Album("Live and Fall", Artist.XDINARY_HEROES);
     album = albumRepository.save(album);

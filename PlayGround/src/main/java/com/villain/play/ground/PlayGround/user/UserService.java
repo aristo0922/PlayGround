@@ -1,7 +1,7 @@
 package com.villain.play.ground.PlayGround.user;
 
-import com.villain.play.ground.PlayGround.constant.Status;
-import com.villain.play.ground.PlayGround.utils.Encryptor;
+import com.villain.play.ground.PlayGround.user.entity.User;
+import com.villain.play.ground.PlayGround.user.request.RegisterRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,19 +13,17 @@ public class UserService {
 
   public User login(String email, String password) throws IllegalArgumentException {
     User userInfo = userRepository.findByEmail(email).orElseThrow(IllegalArgumentException::new);
-    if(userInfo.isActive() != true)
+    if (userInfo.isActive() != true) {
       throw new IllegalArgumentException("[Error] You Cannot Access This Account.");
-    if(userInfo.checkSamePassword(password))
+    }
+    if (userInfo.isSamePassword(password)) {
       return userInfo;
+    }
     throw new IllegalArgumentException("[Error] Incorrect Password.");
   }
 
-  public void createUser(UserDTO dto) {
-    if(dto.undefinedState())
-      dto.setStatus(Status.ACTIVE);
-
-    String hashed = Encryptor.encrypt(dto.getPassword());
-    userRepository.save(User.of(dto, hashed));
+  public void createUser(RegisterRequest request) {
+    userRepository.save(User.of(request));
   }
 
   public User findById(long id) {
@@ -34,29 +32,32 @@ public class UserService {
 
   public void checkAndUpgradeStatus(long id) {
     User user = userRepository.findById(id).orElseThrow(IllegalArgumentException::new);
-    if(canUpgrade(user))
+    if (canUpgrade(user)) {
       user.upgradeStatus();
+    }
   }
 
-  private boolean canUpgrade(User user){
-    if(user.getPartyCount() >= 0){
-      return true;
-    }
-    return false;
+  private boolean canUpgrade(User user) {
+//    if(user.getPartyCount() >= 0){
+//      return true;
+//    }
+//    return false;
+    return true;
   }
 
   public void checkAndDownGradeStatus(long id) {
     User user = userRepository.findById(id).orElseThrow(IllegalArgumentException::new);
-    if(shouldDowngrade(user)){
+    if (shouldDowngrade(user)) {
       user.downgradeStatus();
     }
   }
 
 
-  private boolean shouldDowngrade(User user){
-    if(user.getPartyCount() >= 0){
-      return true;
-    }
-    return false;
+  private boolean shouldDowngrade(User user) {
+//    if(user.getPartyCount() >= 0){
+//      return true;
+//    }
+//    return false;
+    return true;
   }
 }

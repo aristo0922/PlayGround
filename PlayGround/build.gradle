@@ -29,6 +29,7 @@ dependencies {
 
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+	implementation 'jakarta.validation:jakarta.validation-api:3.1.1'
 
 	implementation 'org.mindrot:jbcrypt:0.4'
 	testCompileOnly 'org.projectlombok:lombok'
