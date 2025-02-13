@@ -74,7 +74,7 @@ public class Party {
     this.reservations = new ArrayList<>();
   }
 
-  public boolean isArtist(String name){ // ㅇㅣ거는 앨범의 책임이지 파티의 책임은 아닌듯
-    return album.isArtist(name) || name.equals(album.getName());
+  public boolean isArtist(String name){
+    return album.isArtist(name);
   }
 }

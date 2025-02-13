@@ -48,7 +48,7 @@ public class Album {
   }
 
   public boolean isArtist(String name) {
-    return artist.isIdentifiedMember(name);
+    return artist.isIdentifiedMember(name) || name.equals(artist.toString());
   }
 
   public Artist getArtist() {
