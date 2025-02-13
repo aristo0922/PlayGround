@@ -8,6 +8,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.villain.play.ground.PlayGround.constant.Status;
+import com.villain.play.ground.PlayGround.utils.EncryptHelper;
 import java.util.ArrayList;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
@@ -26,6 +27,10 @@ public class UserServiceTest {
 
   @Mock
   UserRepository userRepository;
+
+  @Mock
+  EncryptHelper encryptor;
+
   @InjectMocks
   UserService userService;
 

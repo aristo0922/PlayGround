@@ -43,11 +43,11 @@ public class User {
   }
 
   public static User from(UserDTO dto){
-    Status status = dto.getStatus();
-    if(dto.getStatus() == null){
-      throw new IllegalStateException("[ERROR] 사용자 상태가 불분명합니다. 다시 확인해주세요.");
-    }
-    return new User(dto.getId(), dto.getName(), dto.getEmail(), dto.getPassword(), dto.getAddress(), status, dto.getPartyCount(), dto.getLeaderCount(), dto.getPartyList());
+    return new User(dto.getId(), dto.getName(), dto.getEmail(), dto.getPassword(), dto.getAddress(), dto.getStatus(), dto.getPartyCount(), dto.getLeaderCount(), dto.getPartyList());
+  }
+
+  public static User of(UserDTO dto, String password){
+    return new User(dto.getId(), dto.getName(), dto.getEmail(), password, dto.getAddress(), dto.getStatus(), dto.getPartyCount(), dto.getLeaderCount(), dto.getPartyList());
   }
 
   public void upgradeStatus(){

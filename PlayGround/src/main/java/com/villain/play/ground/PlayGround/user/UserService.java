@@ -1,5 +1,6 @@
 package com.villain.play.ground.PlayGround.user;
 
+import com.villain.play.ground.PlayGround.constant.Status;
 import com.villain.play.ground.PlayGround.utils.EncryptHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
   private final UserRepository userRepository;
-  private final EncryptHelper encryptHelper;
+  private final EncryptHelper encryptor;
 
   public User login(String email, String password) throws IllegalArgumentException {
     User userInfo = userRepository.findByEmail(email).orElseThrow(IllegalArgumentException::new);
@@ -19,7 +20,11 @@ public class UserService {
   }
 
   public void createUser(UserDTO dto) {
-    userRepository.save(User.from(dto));
+    if(dto.undefinedState())
+      dto.setStatus(Status.ACTIVE);
+
+    String hashed = encryptor.encrypt(dto.getPassword());
+    userRepository.save(User.of(dto, hashed));
   }
 
   public User findById(long id) {
