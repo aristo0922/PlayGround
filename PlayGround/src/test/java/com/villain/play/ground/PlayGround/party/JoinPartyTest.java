@@ -7,7 +7,7 @@ import com.villain.play.ground.PlayGround.album.Album;
 import com.villain.play.ground.PlayGround.constant.Artist;
 import com.villain.play.ground.PlayGround.reservation.Reservation;
 import com.villain.play.ground.PlayGround.reservation.ReservationDTO;
-import com.villain.play.ground.PlayGround.user.User;
+import com.villain.play.ground.PlayGround.user.entity.User;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

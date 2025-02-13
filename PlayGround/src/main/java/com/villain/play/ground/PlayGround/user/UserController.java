@@ -1,5 +1,6 @@
 package com.villain.play.ground.PlayGround.user;
 
+import com.villain.play.ground.PlayGround.user.entity.User;
 import com.villain.play.ground.PlayGround.user.request.LoginRequest;
 import com.villain.play.ground.PlayGround.user.request.RegisterRequest;
 import lombok.RequiredArgsConstructor;
@@ -24,13 +25,7 @@ public class UserController {
 
   @PostMapping("/register")
   public void register(@RequestBody RegisterRequest request) {
-    if (!RegisterRequest.hasBlankFields(request)) {
-      UserDTO user = UserDTO.builder()
-          .email(request.getEmail())
-          .password(request.getPassword())
-          .address(request.getAddress())
-          .name(request.getName()).build();
-    }
+
   }
 
   @PostMapping("/login")

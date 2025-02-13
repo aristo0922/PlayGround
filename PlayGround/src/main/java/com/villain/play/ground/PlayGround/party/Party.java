@@ -2,8 +2,7 @@ package com.villain.play.ground.PlayGround.party;
 
 import com.villain.play.ground.PlayGround.album.Album;
 import com.villain.play.ground.PlayGround.reservation.Reservation;
-import com.villain.play.ground.PlayGround.reservation.ReservationDTO;
-import com.villain.play.ground.PlayGround.user.User;
+import com.villain.play.ground.PlayGround.user.entity.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

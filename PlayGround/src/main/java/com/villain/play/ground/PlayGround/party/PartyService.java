@@ -3,7 +3,7 @@ package com.villain.play.ground.PlayGround.party;
 import com.villain.play.ground.PlayGround.request.NewParty;
 import com.villain.play.ground.PlayGround.reservation.Reservation;
 import com.villain.play.ground.PlayGround.reservation.ReservationDTO;
-import com.villain.play.ground.PlayGround.user.User;
+import com.villain.play.ground.PlayGround.user.entity.User;
 import com.villain.play.ground.PlayGround.user.UserService;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
