@@ -1,7 +1,7 @@
 package com.villain.play.ground.PlayGround.user;
 
 import com.villain.play.ground.PlayGround.constant.Status;
-import com.villain.play.ground.PlayGround.utils.EncryptHelper;
+import com.villain.play.ground.PlayGround.utils.Encryptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,10 +10,11 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
   private final UserRepository userRepository;
-  private final EncryptHelper encryptor;
 
   public User login(String email, String password) throws IllegalArgumentException {
     User userInfo = userRepository.findByEmail(email).orElseThrow(IllegalArgumentException::new);
+    if(userInfo.isActive() != true)
+      throw new IllegalArgumentException("[Error] You Cannot Access This Account.");
     if(userInfo.checkSamePassword(password))
       return userInfo;
     throw new IllegalArgumentException("[Error] Incorrect Password.");
@@ -23,7 +24,7 @@ public class UserService {
     if(dto.undefinedState())
       dto.setStatus(Status.ACTIVE);
 
-    String hashed = encryptor.encrypt(dto.getPassword());
+    String hashed = Encryptor.encrypt(dto.getPassword());
     userRepository.save(User.of(dto, hashed));
   }
 

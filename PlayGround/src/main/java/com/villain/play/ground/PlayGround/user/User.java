@@ -2,6 +2,7 @@ package com.villain.play.ground.PlayGround.user;
 
 import com.villain.play.ground.PlayGround.constant.Status;
 import com.villain.play.ground.PlayGround.party.Party;
+import com.villain.play.ground.PlayGround.utils.Encryptor;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -60,7 +61,12 @@ public class User {
 
   public boolean checkSamePassword(String password) {
     if(this.status == Status.INACTIVE) throw new IllegalArgumentException("[Error] Access Denied account.");
-    if(this.password.equals(password)) return true;
+    if(Encryptor.isMatch(password, this.password)) return true;
     return false;
+  }
+
+  public boolean isActive(){
+    if(this.status == Status.INACTIVE) return false;
+    return true;
   }
 }

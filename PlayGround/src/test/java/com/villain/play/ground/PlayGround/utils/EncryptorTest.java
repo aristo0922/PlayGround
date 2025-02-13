@@ -12,24 +12,11 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ExtendWith(SpringExtension.class)
 class EncryptorTest {
 
-  @Autowired
-  private EncryptHelper encryptHelper;
-
   @DisplayName("password 암호화 모듈 정상 동작")
   @Test
   void verft_password(){
     String password = "VillainsPassword!23";
-    String encrypted = encryptHelper.encrypt(password);
-    Assertions.assertTrue(encryptHelper.isMatch(password, encrypted));
+    String encrypted = Encryptor.encrypt(password);
+    Assertions.assertTrue(Encryptor.isMatch(password, encrypted));
   }
-
-
-  @Configuration
-  static class testConfig{
-    @Bean
-    public EncryptHelper encryptHelper(){
-      return new Encryptor();
-    }
-  }
-
 }
